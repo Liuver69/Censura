@@ -326,7 +326,7 @@ function incrementarMiembrosAlRecargar(){
 // Nombres y miembros
 function actualizarNombresYMiembros(){
   const seleccion=nombres.sort(()=>0.5-Math.random()).slice(0,2);
-  channelInfo.textContent=`${seleccion.join(" y ")}... y ${miembros.toLocaleString()} miembros más`;
+  channelInfo.textContent=`${seleccion.join(" , ")}... y ${miembros.toLocaleString()} miembros más`;
 }
 
 // Inicializar
