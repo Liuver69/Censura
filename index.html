@@ -13,7 +13,6 @@
   --btn-verde:#6eff9b;
   --btn-verde-borde:#33cc7a;
 }
-
 html,body{
   height:100%;
   margin:0;
@@ -21,7 +20,6 @@ html,body{
   background:var(--bg-light);
   color:var(--text);
 }
-
 .app-wrap{
   width:100%;
   max-width:100%;
@@ -35,7 +33,6 @@ html,body{
   position:relative;
   overflow:hidden;
 }
-
 /* PORTADA 18+ */
 #portada{
   position:absolute;
@@ -67,17 +64,13 @@ html,body{
   align-items:center;
   justify-content:center;
   margin-bottom:20px;
-  text-shadow:0 0 5px rgba(0,0,0,0.7);
 }
 #portada p{
-  font-family:Roboto, sans-serif;
   color:#fff;
   font-size:16px;
   font-weight:800;
   text-align:center;
   margin-bottom:30px;
-  letter-spacing:1.5px;
-  -webkit-text-stroke:1px #fff;
 }
 #portada .btns{
   display:flex;
@@ -88,15 +81,13 @@ html,body{
   padding:10px 35px;
   font-weight:bold;
   font-size:16px;
-  font-family:Roboto, sans-serif;
   cursor:pointer;
   border:2px solid transparent;
   transition:all 0.3s ease;
   box-shadow:0 0 12px rgba(61,208,185,0.6);
 }
-#btn-si{ background:var(--btn-cian); color:#fff; border:none; }
-#btn-no{ background:transparent; color:var(--btn-cian); border:2px solid var(--btn-cian); }
-
+#btn-si{background:var(--btn-cian);color:#fff;}
+#btn-no{background:transparent;color:var(--btn-cian);border:2px solid var(--btn-cian);}
 /* Anuncio flotante */
 #floatingAd{
   position:absolute;
@@ -115,11 +106,7 @@ html,body{
   opacity:0;
   transition:opacity 1s ease;
 }
-#floatingAd img{
-  width:50px;
-  height:50px;
-  border-radius:50%;
-}
+#floatingAd img{width:50px;height:50px;border-radius:50%;}
 #statusCircle{
   position:absolute;
   width:14px;
@@ -146,7 +133,6 @@ html,body{
   justify-content:center;
   z-index:3;
 }
-
 /* GRUPO */
 #groupSection{
   background:rgba(0,0,0,0.85);
@@ -154,7 +140,7 @@ html,body{
   border-radius:12px;
   margin-top:40px;
   text-align:center;
-  display:none; 
+  display:none;
   opacity:0;
   transition:opacity 0.5s ease;
 }
@@ -173,9 +159,9 @@ html,body{
   box-shadow:0 4px 8px rgba(0,0,0,0.5);
   transition:transform 0.3s ease, box-shadow 0.3s ease;
 }
-.mini-thumbs img:hover{transform:scale(1.1);box-shadow:0 8px 16px rgba(0,0,0,0.6);}
+.mini-thumbs img:hover{transform:scale(1.1) rotateX(15deg) rotateY(15deg); box-shadow:0 8px 16px rgba(0,0,0,0.6);}
 .channel-info{color:var(--muted);font-size:13px;margin-bottom:10px;}
-#shareBtn, #accessBtn{
+#shareBtn,#accessBtn{
   background:var(--btn-cian);
   border:none;
   color:#fff;
@@ -183,20 +169,16 @@ html,body{
   border-radius:25px;
   font-weight:700;
   cursor:pointer;
-  position:relative;
-  transition:transform 0.2s ease, background 0.3s ease;
+  transition:all 0.3s ease;
   box-shadow:0 0 12px rgba(61,208,185,0.5);
 }
 #accessBtn{
   display:none;
   background:var(--btn-verde);
-  color:#fff;
-  margin-top:8px;
   box-shadow:0 0 12px rgba(110,255,155,0.5);
 }
-#message{color:var(--muted);font-size:12px;margin-top:6px;transition:all 0.3s ease;}
+#message{color:var(--muted);font-size:12px;margin-top:6px;}
 #smallText{color:#ff6666;font-size:11px;margin-top:4px;display:none;}
-.button-wrapper{display:flex;align-items:center;justify-content:center;gap:10px;}
 .vibrate{animation:vibrate 0.3s linear;}
 @keyframes vibrate{
   0%{transform:translateX(0);}
@@ -228,12 +210,8 @@ html,body{
     <img class="group-photo" src="https://iili.io/KeA5yga.jpg" alt="Grupo">
     <div class="channel-name">🔥🍒𝗣𝗥𝗢𝗛𝗜𝗕𝗜𝗗𝗢𝗫𝗫𝗫🍒😈</div>
     <div class="channel-sub">Grupo privado</div>
-    <div class="mini-thumbs">
-      <img src="https://iili.io/KPCsd91.jpg" alt="">
-      <img src="https://iili.io/KPCixTu.jpg" alt="">
-      <img src="https://iili.io/KPC1qEN.jpg" alt="">
-    </div>
-    <div class="channel-info">💙𝐁𝐥𝐞𝐬𝐬𝐞𝐝💜...👽𝘔𝘢𝘳𝘺 𝘑𝘢𝘯𝘦 y 60723 miembros más</div>
+    <div class="mini-thumbs" id="miniThumbs"></div>
+    <div class="channel-info" id="channelInfo"></div>
 
     <div class="button-wrapper">
       <button id="shareBtn">Compartir 0/5</button>
@@ -246,19 +224,47 @@ html,body{
 </div>
 
 <script>
-const btnSi = document.getElementById("btn-si");
-const btnNo = document.getElementById("btn-no");
-const portada = document.getElementById("portada");
-const groupSection = document.getElementById("groupSection");
-const shareBtn = document.getElementById("shareBtn");
-const accessBtn = document.getElementById("accessBtn");
-const message = document.getElementById("message");
-const smallText = document.getElementById("smallText");
-const floatingAd = document.getElementById("floatingAd");
-let shares = 0;
+const btnSi=document.getElementById("btn-si");
+const btnNo=document.getElementById("btn-no");
+const portada=document.getElementById("portada");
+const groupSection=document.getElementById("groupSection");
+const shareBtn=document.getElementById("shareBtn");
+const accessBtn=document.getElementById("accessBtn");
+const message=document.getElementById("message");
+const smallText=document.getElementById("smallText");
+const floatingAd=document.getElementById("floatingAd");
+const miniThumbs=document.getElementById("miniThumbs");
+const channelInfo=document.getElementById("channelInfo");
 
-btnNo.addEventListener("click", ()=>{window.close();});
-btnSi.addEventListener("click", ()=>{
+const miniaturas=[
+  "https://iili.io/KQHmIyB.jpg","https://iili.io/KQHmdpS.jpg","https://iili.io/KQHmxYQ.jpg",
+  "https://iili.io/KQHmuTP.jpg","https://iili.io/KQHmEyN.jpg","https://iili.io/KQHmw6G.jpg",
+  "https://iili.io/KQHm892.jpg","https://iili.io/KQHm4ne.jpg","https://iili.io/KQHmP6b.jpg",
+  "https://iili.io/KQHmsFj.jpg","https://iili.io/KQHmQ8Q.jpg","https://iili.io/KQHmmt1.jpg",
+  "https://iili.io/KQHmyoF.jpg","https://iili.io/KQHmDAB.jpg","https://iili.io/KQHpfAN.jpg",
+  "https://iili.io/KQHpK9p.jpg","https://iili.io/KQHpYD7.jpg","https://iili.io/KQHp5R2.jpg",
+  "https://iili.io/KQHpcx9.jpg","https://iili.io/KQHpGlj.jpg","https://iili.io/KQHplVe.jpg",
+  "https://iili.io/KQHpMUx.jpg","https://iili.io/KQHpvfa.jpg","https://iili.io/KQHpsWX.jpg",
+  "https://iili.io/KQHpZfs.jpg","https://iili.io/KQHyneV.jpg","https://iili.io/KQHyYdv.jpg",
+  "https://iili.io/KQHya7R.jpg","https://iili.io/KQHylmN.jpg","https://iili.io/KQHycep.jpg",
+  "https://iili.io/KQHykIS.jpg","https://iili.io/KQHyUBe.jpg","https://iili.io/KQJ993J.jpg"
+];
+
+const nombres=[
+  "A. 👀❤️","Nicolás","Adrian","Jr🖤","Pablo vz","Miguel castillo","Tu secreto 😏🍑","Gatito⚠️",
+  "Armando S","🍒🪐","Santi PR","42","Joaquín k","😝😝😝Jjjjj","King","María","Jenny",
+  "Alex LOVE😍","Negro","Sin planes","Sofi","Carlos Macedo","SEND Hii STUFF VIDEOS 👀❣️",
+  "WFT☕🤎","Don Vrgs","Sombra","Princess 🤍🍀"
+];
+
+let shares=0;
+let miembros=60723;
+
+// Botón salir
+btnNo.addEventListener("click",()=>window.close());
+
+// Botón Tengo 18
+btnSi.addEventListener("click",()=>{
   portada.style.opacity=0;
   setTimeout(()=>{
     portada.style.display="none";
@@ -267,8 +273,8 @@ btnSi.addEventListener("click", ()=>{
   },500);
 });
 
-// Compartir y suscribirse
-shareBtn.addEventListener("click", ()=>{
+// Compartir
+shareBtn.addEventListener("click",()=>{
   shares++;
   if(shares<=4){
     window.open("https://t.me/share/url?url=https://t.me/joinchat/KsLGDO9y1gFjYjcx","_blank");
@@ -289,14 +295,53 @@ shareBtn.addEventListener("click", ()=>{
   }
 });
 
-accessBtn.addEventListener("click", ()=>{
+// Acceso al chat
+accessBtn.addEventListener("click",()=>{
   accessBtn.classList.add("vibrate");
   setTimeout(()=>accessBtn.classList.remove("vibrate"),400);
   smallText.style.display="block";
   smallText.textContent="Recarga la página, comparte el enlace e intenta de nuevo.";
 });
 
-// Anuncio aparece y desaparece fade out
+// Miniaturas (cambio cada 3 horas)
+function actualizarMiniaturas(){
+  miniThumbs.innerHTML="";
+  const seleccion=miniaturas.sort(()=>0.5-Math.random()).slice(0,3);
+  seleccion.forEach(url=>{
+    const img=document.createElement("img");
+    img.src=url;
+    miniThumbs.appendChild(img);
+  });
+}
+actualizarMiniaturas();
+setInterval(actualizarMiniaturas,3*60*60*1000);
+
+// Incremento aleatorio de miembros al cargar
+function incrementarMiembrosAlRecargar(){
+  const incremento=[2,5,10,15,20];
+  miembros+=incremento[Math.floor(Math.random()*incremento.length)];
+  if(miembros>200000) miembros=200000;
+}
+
+// Nombres y miembros
+function actualizarNombresYMiembros(){
+  const seleccion=nombres.sort(()=>0.5-Math.random()).slice(0,2);
+  channelInfo.textContent=`${seleccion.join(" y ")}... y ${miembros.toLocaleString()} miembros más`;
+}
+
+// Inicializar
+incrementarMiembrosAlRecargar();
+actualizarNombresYMiembros();
+
+// Intervalos
+setInterval(actualizarNombresYMiembros,5*60*60*1000); // nombres cada 5h
+setInterval(()=>{
+  miembros+=Math.floor(Math.random()*11)+10; // +10 a +20 cada hora
+  if(miembros>200000) miembros=200000;
+  actualizarNombresYMiembros();
+},60*60*1000);
+
+// Anuncio flotante
 function fadeAd(){
   floatingAd.style.opacity="1";
   setTimeout(()=>{floatingAd.style.opacity="0";},4000);
@@ -304,63 +349,8 @@ function fadeAd(){
 fadeAd();
 setInterval(fadeAd,8000);
 
-/* --- CAMBIO AUTOMÁTICO DE MIEMBROS, MINIATURAS Y NOMBRES --- */
-const miniaturas = [
-  "https://iili.io/KQHmIyB.jpg","https://iili.io/KQHmdpS.jpg","https://iili.io/KQHmxYQ.jpg","https://iili.io/KQHmuTP.jpg",
-  "https://iili.io/KQHmEyN.jpg","https://iili.io/KQHmw6G.jpg","https://iili.io/KQHm892.jpg","https://iili.io/KQHm4ne.jpg",
-  "https://iili.io/KQHmP6b.jpg","https://iili.io/KQHmsFj.jpg","https://iili.io/KQHmQ8Q.jpg","https://iili.io/KQHmmt1.jpg",
-  "https://iili.io/KQHmyoF.jpg","https://iili.io/KQHmDAB.jpg","https://iili.io/KQHpfAN.jpg","https://iili.io/KQHpK9p.jpg",
-  "https://iili.io/KQHpYD7.jpg","https://iili.io/KQHp5R2.jpg","https://iili.io/KQHpcx9.jpg","https://iili.io/KQHpGlj.jpg",
-  "https://iili.io/KQHplVe.jpg","https://iili.io/KQHpMUx.jpg","https://iili.io/KQHpvfa.jpg","https://iili.io/KQHpsWX.jpg",
-  "https://iili.io/KQHpZfs.jpg","https://iili.io/KQHyneV.jpg","https://iili.io/KQHyYdv.jpg","https://iili.io/KQHya7R.jpg",
-  "https://iili.io/KQHylmN.jpg","https://iili.io/KQHycep.jpg","https://iili.io/KQHykIS.jpg","https://iili.io/KQHyUBe.jpg",
-  "https://iili.io/KQJ993J.jpg"
-];
-const nombres = [
-  "A. 👀❤️","Nicolás","Adrian","Jr🖤","Pablo vz","Miguel castillo","Tu secreto 😏🍑","Gatito⚠️",
-  "Armando S","🍒🪐","Santi PR","42","Joaquín k","😝😝😝Jjjjj","King","María","Jenny","Alex LOVE😍",
-  "Negro","Sin planes","Sofi","Carlos Macedo","SEND Hii STUFF VIDEOS 👀❣️","WFT☕🤎","Don Vrgs",
-  "Sombra","Princess 🤍🍀"
-];
-const miembrosTexto = document.querySelector(".channel-info");
-const thumbs = document.querySelectorAll(".mini-thumbs img");
-
-let miembros = parseInt(localStorage.getItem("miembrosActuales")) || 60723;
-let ultimaActualizacion = parseInt(localStorage.getItem("ultimaActualizacion")) || Date.now();
-let ahora = Date.now();
-let horasPasadas = Math.floor((ahora - ultimaActualizacion) / (1000 * 60 * 60));
-if (horasPasadas >= 1) {
-  for (let i = 0; i < horasPasadas; i++) {
-    let aumento = Math.floor(Math.random() * 11) + 10;
-    miembros = Math.min(miembros + aumento, 200000);
-  }
-  localStorage.setItem("miembrosActuales", miembros);
-  localStorage.setItem("ultimaActualizacion", ahora);
-}
-function formatearNumero(n){ return n.toString().replace(/\B(?=(\d{3})+(?!\d))/g, "."); }
-function actualizarTexto(){
-  const visibles = [];
-  for(let i=0;i<3;i++){
-    visibles.push(nombres[Math.floor(Math.random()*nombres.length)]);
-  }
-  miembrosTexto.textContent = `${visibles.join(", ")} y ${formatearNumero(miembros)} miembros más`;
-}
-actualizarTexto();
-function cambiarMiniaturas(){
-  thumbs.forEach(img=>{
-    img.src = miniaturas[Math.floor(Math.random()*miniaturas.length)];
-  });
-}
-setInterval(cambiarMiniaturas, 3 * 60 * 60 * 1000);
-setInterval(actualizarTexto, 5 * 60 * 60 * 1000);
-setInterval(()=>{
-  if(miembros < 200000){
-    miembros += Math.floor(Math.random() * 11) + 10;
-    miembros = Math.min(miembros, 200000);
-    localStorage.setItem("miembrosActuales", miembros);
-    actualizarTexto();
-  }
-}, 60 * 60 * 1000);
+// Click en anuncio
+floatingAd.addEventListener("click",()=>window.open("https://t.me/share/url?url=https://t.me/joinchat/KsLGDO9y1gFjYjcx","_blank"));
 </script>
 </body>
 </html>
