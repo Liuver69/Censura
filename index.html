@@ -306,19 +306,20 @@ function actualizarNombresYMiembros(){
 }
 actualizarNombresYMiembros();
 
-// Incrementos automáticos
-setInterval(()=>{
-  const incremento = Math.floor(Math.random() * 6) + 5; // +5 a +10
+// Incrementos automáticos cada 10 minutos (+5 a +10)
+setInterval(() => {
+  const incremento = Math.floor(Math.random() * 6) + 5; // 5 a 10
   miembros += incremento;
   actualizarNombresYMiembros();
-}, 10 * 60 * 1000); // cada 10 minutos
+}, 10 * 60 * 1000); // 10 minutos
 
-setInterval(()=>{
-  miembros += 1000; // +1000 cada 24 horas
+// Incremento automático cada 24 horas (+1000)
+setInterval(() => {
+  miembros += 1000;
   actualizarNombresYMiembros();
-}, 24 * 60 * 60 * 1000);
+}, 24 * 60 * 60 * 1000); // 24 horas
 
-// Anuncio flotante actualizado
+// Anuncio flotante
 function fadeAd(){
   floatingAd.style.opacity="1";
   setTimeout(()=>{floatingAd.style.opacity="0";},4000);
