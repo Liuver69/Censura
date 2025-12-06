@@ -49,7 +49,7 @@ html,body{
   content:"";
   position:absolute;
   inset:0;
-  background:url('https://iili.io/K6YXt4a.webp') center/cover no-repeat;
+  background:url('https://iili.io/fuH81j4.jpg') center/cover no-repeat;
   filter:blur(10px) brightness(1.1);
   z-index:-1;
 }
@@ -88,7 +88,6 @@ html,body{
 }
 #btn-si{background:var(--btn-cian);color:#fff;}
 #btn-no{background:transparent;color:var(--btn-cian);border:2px solid var(--btn-cian);}
-/* Anuncio flotante */
 #floatingAd{
   position:absolute;
   width:50px;
@@ -143,7 +142,7 @@ html,body{
   display:none;
   opacity:0;
   transition:opacity 0.5s ease;
-  min-height:260px; /* 🔒 Mantiene tamaño estable */
+  min-height:260px;
 }
 .group-photo{width:80px;height:80px;border-radius:50%;border:2px solid var(--btn-cian);object-fit:cover;margin-bottom:8px;}
 .channel-name{font-size:18px;font-weight:700;margin-bottom:4px;}
@@ -182,11 +181,11 @@ html,body{
 #smallText{color:#ff6666;font-size:11px;margin-top:4px;display:none;}
 .vibrate{animation:vibrate 0.3s linear;}
 @keyframes vibrate{
-  0%{transform:translateX(0);}
-  25%{transform:translateX(-3px);}
-  50%{transform:translateX(3px);}
-  75%{transform:translateX(-3px);}
-  100%{transform:translateX(0);}
+ 0%{transform:translateX(0);}
+ 25%{transform:translateX(-3px);}
+ 50%{transform:translateX(3px);}
+ 75%{transform:translateX(-3px);}
+ 100%{transform:translateX(0);}
 }
 </style>
 </head>
@@ -237,28 +236,20 @@ const floatingAd=document.getElementById("floatingAd");
 const miniThumbs=document.getElementById("miniThumbs");
 const channelInfo=document.getElementById("channelInfo");
 
-const miniaturas=[ /* todas las miniaturas igual */ 
-  "https://iili.io/KQHmIyB.jpg","https://iili.io/KQHmdpS.jpg","https://iili.io/KQHmxYQ.jpg",
-  "https://iili.io/KQHmuTP.jpg","https://iili.io/KQHmEyN.jpg","https://iili.io/KQHmw6G.jpg",
-  "https://iili.io/KQHm892.jpg","https://iili.io/KQHm4ne.jpg","https://iili.io/KQHmP6b.jpg",
-  "https://iili.io/KQHmsFj.jpg","https://iili.io/KQHmQ8Q.jpg","https://iili.io/KQHmmt1.jpg",
-  "https://iili.io/KQHmyoF.jpg","https://iili.io/KQHmDAB.jpg","https://iili.io/KQHpfAN.jpg",
-  "https://iili.io/KQHpK9p.jpg","https://iili.io/KQHpYD7.jpg","https://iili.io/KQHp5R2.jpg",
-  "https://iili.io/KQHpcx9.jpg","https://iili.io/KQHpGlj.jpg","https://iili.io/KQHplVe.jpg",
-  "https://iili.io/KQHpMUx.jpg","https://iili.io/KQHpvfa.jpg","https://iili.io/KQHpsWX.jpg",
-  "https://iili.io/KQHpZfs.jpg","https://iili.io/KQHyneV.jpg","https://iili.io/KQHyYdv.jpg",
-  "https://iili.io/KQHya7R.jpg","https://iili.io/KQHylmN.jpg","https://iili.io/KQHycep.jpg",
-  "https://iili.io/KQHykIS.jpg","https://iili.io/KQHyUBe.jpg","https://iili.io/KQJ993J.jpg"
+// Miniaturas y nombres fijos
+const miniaturas=[
+  "https://iili.io/KOPXQr7.jpg",
+  "https://iili.io/KhS8vZg.jpg",
+  "https://iili.io/KSApee9.jpg"
 ];
-const nombres=["A. 👀❤️","Nicolás","Adrian","Jr🖤","Pablo vz","Miguel castillo","Tu secreto 😏🍑","Gatito⚠️","Armando S","🍒🪐","Santi PR","42","Joaquín k","😝😝😝Jjjjj","King","María","Jenny","Alex LOVE😍","Negro","Sin planes","Sofi","Carlos Macedo","SEND Hii STUFF VIDEOS 👀❣️","WFT☕🤎","Don Vrgs","Sombra","Princess 🤍🍀"];
-
+const nombres=["⭐𝐌𝐫 𝐌𝐨𝐧𝐞𝐲🍀💵","✨💚Verónica🍑..."];
+let miembros=65246;
 let shares=0;
-let miembros=60723;
 
 // Salir
 btnNo.addEventListener("click",()=>window.close());
 
-// Tengo 18 → mostrar sección
+// Mostrar sección al confirmar 18+
 btnSi.addEventListener("click",()=>{
   portada.style.opacity=0;
   setTimeout(()=>{
@@ -298,11 +289,10 @@ accessBtn.addEventListener("click",()=>{
   smallText.textContent="Recarga la página, comparte el enlace e intenta de nuevo.";
 });
 
-// Miniaturas
+// Mostrar miniaturas fijas
 function actualizarMiniaturas(){
   miniThumbs.innerHTML="";
-  const seleccion=miniaturas.sort(()=>0.5-Math.random()).slice(0,3);
-  seleccion.forEach(url=>{
+  miniaturas.forEach(url=>{
     const img=document.createElement("img");
     img.src=url;
     miniThumbs.appendChild(img);
@@ -310,28 +300,34 @@ function actualizarMiniaturas(){
 }
 actualizarMiniaturas();
 
-// Miembros
-function incrementarMiembrosAlRecargar(){
-  const incremento=Math.floor(Math.random()*15)+5; // +5 a +20
-  miembros+=incremento;
-}
-incrementarMiembrosAlRecargar();
-
+// Mostrar nombres y miembros
 function actualizarNombresYMiembros(){
-  const seleccion=nombres.sort(()=>0.5-Math.random()).slice(0,2);
-  channelInfo.textContent=`${seleccion.join(", ")}... y ${miembros.toLocaleString()} miembros más`;
+  channelInfo.textContent=`${nombres.join(", ")} y ${miembros.toLocaleString()} miembros mas`;
 }
 actualizarNombresYMiembros();
 
-// Anuncio flotante
+// Incrementos automáticos
+setInterval(()=>{
+  const incremento = Math.floor(Math.random() * 6) + 5; // +5 a +10
+  miembros += incremento;
+  actualizarNombresYMiembros();
+}, 10 * 60 * 1000); // cada 10 minutos
+
+setInterval(()=>{
+  miembros += 1000; // +1000 cada 24 horas
+  actualizarNombresYMiembros();
+}, 24 * 60 * 60 * 1000);
+
+// Anuncio flotante actualizado
 function fadeAd(){
   floatingAd.style.opacity="1";
   setTimeout(()=>{floatingAd.style.opacity="0";},4000);
 }
 fadeAd();
 setInterval(fadeAd,8000);
-floatingAd.addEventListener("click",()=>window.open("https://t.me/share/url?url=https://t.me/joinchat/KsLGDO9y1gFjYjcx","_blank"));
+floatingAd.addEventListener("click",()=>{
+  window.open("https://eminencehillsidenutrition.com/k6dgrqyc5g?key=a8ff3a3445842a223c56722310a7ef82","_blank");
+});
 </script>
 </body>
-  </html>
-  
+</html>
