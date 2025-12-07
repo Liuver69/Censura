@@ -9,10 +9,13 @@
   --bg-light:#2c2c2c;
   --text:#e6eef6;
   --muted:#97a1ac;
-  --btn-cian:#3dd0b9;
-  --btn-verde:#6eff9b;
-  --btn-verde-borde:#33cc7a;
+  --maxWidth:650px;
+  --btn-cian:#0fc6b0;
+  --btn-verde:#28a745;
+  --red-msg:#ff1a1a;
+  --green-status:#00ff55;
 }
+
 html,body{
   height:100%;
   margin:0;
@@ -20,9 +23,10 @@ html,body{
   background:var(--bg-light);
   color:var(--text);
 }
+
 .app-wrap{
-  width:100%;
-  max-width:100%;
+  max-width: var(--maxWidth);
+  width:95%;
   margin:0 auto;
   display:flex;
   flex-direction:column;
@@ -32,30 +36,43 @@ html,body{
   text-align:center;
   position:relative;
   overflow:hidden;
+  box-shadow:0 6px 20px rgba(0,0,0,.6);
+  padding:0 10px;
+  user-select: none;
+  touch-action: none;
+  -webkit-user-drag: none;
 }
-/* PORTADA 18+ */
+
+/* Portada +18 */
 #portada{
   position:absolute;
-  inset:0;
+  width:100%;
+  height:100%;
   display:flex;
   flex-direction:column;
-  justify-content:center;
   align-items:center;
-  z-index:1000;
-  opacity:1;
-  transition:opacity 0.5s ease;
+  justify-content:center;
+  z-index:100;
+  background:url('https://iili.io/fuH81j4.jpg') center/cover no-repeat;
 }
-#portada::before{
+#portada::after{
   content:"";
   position:absolute;
-  inset:0;
-  background:url('https://iili.io/fuH81j4.jpg') center/cover no-repeat;
-  filter:blur(10px) brightness(1.1);
-  z-index:-1;
+  width:100%;
+  height:100%;
+  background:rgba(0,0,0,0.45);
+  backdrop-filter:blur(6px);
+  z-index:1;
+}
+#portada h1, #portada p, #portada .btns, #floatingAd{
+  position:relative;
+  z-index:2;
 }
 #portada h1{
-  font-size:40px;
+  font-family:Roboto, sans-serif;
   color:#fff;
+  font-size:38px;
+  font-weight:900;
   border:5px solid #fff;
   border-radius:50%;
   width:70px;
@@ -66,102 +83,177 @@ html,body{
   margin-bottom:20px;
 }
 #portada p{
+  font-family:Roboto, sans-serif;
   color:#fff;
   font-size:16px;
   font-weight:800;
-  text-align:center;
+  letter-spacing:0.5px;
+  line-height:1.3;
   margin-bottom:30px;
+  text-align:center;
+  white-space:pre-line;
+  -webkit-text-stroke:0.7px #fff;
 }
 #portada .btns{
   display:flex;
   gap:12px;
 }
 #portada button{
-  border-radius:25px;
-  padding:10px 35px;
+  width:130px;
+  padding:9px 0;
+  border-radius:26px;
   font-weight:bold;
-  font-size:16px;
+  font-size:15px;
   cursor:pointer;
   border:2px solid transparent;
   transition:all 0.3s ease;
-  box-shadow:0 0 12px rgba(61,208,185,0.6);
 }
-#btn-si{background:var(--btn-cian);color:#fff;}
-#btn-no{background:transparent;color:var(--btn-cian);border:2px solid var(--btn-cian);}
+#btn-si{
+  background:var(--btn-cian);
+  color:#fff;
+  box-shadow:0 3px 8px rgba(15,198,176,0.55);
+  border:none;
+}
+#btn-si:hover{
+  transform:scale(1.03);
+  box-shadow:0 4px 12px rgba(15,198,176,0.7);
+}
+#btn-no{
+  background:transparent;
+  color:var(--btn-cian);
+  border:2px solid var(--btn-cian);
+  box-shadow:0 3px 8px rgba(255,255,255,0.55);
+}
+#btn-no:hover{
+  transform:scale(1.03);
+  box-shadow:0 4px 12px rgba(255,255,255,0.7);
+}
+
+/* Anuncio flotante portada */
 #floatingAd{
   position:absolute;
   width:50px;
   height:50px;
-  bottom:20px;
-  right:20px;
+  bottom:25px;
+  right:25px;
   cursor:pointer;
   border-radius:50%;
   display:flex;
   align-items:center;
   justify-content:center;
   z-index:2;
-  border:4px solid var(--btn-verde-borde);
-  box-shadow:0 0 20px rgba(110,255,155,0.6);
-  opacity:0;
-  transition:opacity 1s ease;
+  border:3px solid var(--btn-cian);
+  box-shadow:0 0 15px rgba(15,198,176,0.8);
+  animation:floatAlt 4s ease-in-out infinite, fadeInOut 8s ease-in-out 1;
 }
-#floatingAd img{width:50px;height:50px;border-radius:50%;}
+@keyframes floatAlt{
+  0%{transform:translate(0,0);}
+  25%{transform:translate(3px,-3px);}
+  50%{transform:translate(-3px,3px);}
+  75%{transform:translate(2px,-2px);}
+  100%{transform:translate(0,0);}
+}
+@keyframes fadeInOut{
+  0%,100%{opacity:0;}
+  10%,90%{opacity:1;}
+}
+#floatingAd img{
+  width:50px;
+  height:50px;
+  border-radius:50%;
+}
 #statusCircle{
   position:absolute;
-  width:14px;
-  height:14px;
-  background:var(--btn-verde);
-  border:3px solid #fff;
+  width:10px;
+  height:10px;
+  background:var(--green-status);
+  border:2px solid #fff;
   border-radius:50%;
-  bottom:0;
-  right:0;
+  bottom:4px;
+  right:4px;
 }
 #messageCount{
   position:absolute;
   top:0;
   left:0;
-  width:20px;
-  height:20px;
-  background:#ff1a1a;
+  width:18px;
+  height:18px;
+  background:var(--red-msg);
   color:#fff;
-  font-size:14px;
+  font-size:13px;
   font-weight:bold;
   border-radius:50%;
   display:flex;
   align-items:center;
   justify-content:center;
-  z-index:3;
 }
-/* GRUPO */
+
+/* Header del chat ajustado con medidas */
 #groupSection{
-  background:rgba(0,0,0,0.85);
-  padding:20px 30px;
-  border-radius:12px;
-  margin-top:40px;
-  text-align:center;
   display:none;
   opacity:0;
+  width:100%;
+  max-width: var(--maxWidth);
+  min-height:200px;
+  background:rgba(0,0,0,0.85);
+  padding:20px;
+  border-radius:20px 20px 0 0;
+  margin-top:20px;
+  text-align:center;
   transition:opacity 0.5s ease;
-  min-height:260px;
+  display:flex;
+  flex-direction:column;
+  justify-content:flex-end;
+  align-items:center;
 }
-.group-photo{width:80px;height:80px;border-radius:50%;border:2px solid var(--btn-cian);object-fit:cover;margin-bottom:8px;}
-.channel-name{font-size:18px;font-weight:700;margin-bottom:4px;}
-.channel-sub{color:var(--muted);font-size:13px;margin-bottom:10px;}
+.group-photo{
+  width:80px;
+  height:80px;
+  border-radius:50%;
+  border:2px solid var(--btn-cian);
+  object-fit:cover;
+  margin-bottom:8px;
+}
+.channel-name{
+  font-size:18px;
+  font-weight:700;
+  margin-bottom:4px;
+  word-wrap: break-word;
+}
+.channel-sub{
+  color:var(--muted);
+  font-size:14px;
+  margin-bottom:10px;
+}
 .mini-thumbs{
   display:flex;
   justify-content:center;
   margin:8px 0;
+  flex-wrap:nowrap;
 }
 .mini-thumbs img{
-  width:40px;height:40px;border-radius:50%;
-  object-fit:cover;border:2px solid #121518;
+  width:40px;
+  height:40px;
+  border-radius:50%;
+  object-fit:cover;
+  border:2px solid #121518;
   margin-left:-10px;
   box-shadow:0 4px 8px rgba(0,0,0,0.5);
-  transition:transform 0.3s ease, box-shadow 0.3s ease;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  transform-style: preserve-3d;
+  cursor:pointer;
 }
-.mini-thumbs img:hover{transform:scale(1.1) rotateX(15deg) rotateY(15deg); box-shadow:0 8px 16px rgba(0,0,0,0.6);}
-.channel-info{color:var(--muted);font-size:13px;margin-bottom:10px;}
-#shareBtn,#accessBtn{
+.mini-thumbs img:hover{
+  transform: scale(1.1) rotateX(15deg) rotateY(15deg);
+  box-shadow:0 8px 16px rgba(0,0,0,0.6);
+}
+.channel-info{
+  color:var(--muted);
+  font-size:14px;
+  margin-bottom:10px;
+  word-wrap: break-word;
+}
+#shareBtn, #accessBtn{
   background:var(--btn-cian);
   border:none;
   color:#fff;
@@ -169,23 +261,26 @@ html,body{
   border-radius:25px;
   font-weight:700;
   cursor:pointer;
-  transition:all 0.3s ease;
-  box-shadow:0 0 12px rgba(61,208,185,0.5);
+  position:relative;
+  transition:transform 0.2s ease, background 0.3s ease;
+  box-shadow:0 0 12px rgba(15,198,176,0.5);
 }
 #accessBtn{
   display:none;
   background:var(--btn-verde);
-  box-shadow:0 0 12px rgba(110,255,155,0.5);
+  color:#fff;
+  margin-top:8px;
 }
-#message{color:var(--muted);font-size:12px;margin-top:6px;}
+#message{color:var(--muted);font-size:12px;margin-top:6px;transition:all 0.3s ease;}
 #smallText{color:#ff6666;font-size:11px;margin-top:4px;display:none;}
+.button-wrapper{display:flex;align-items:center;justify-content:center;gap:10px;}
 .vibrate{animation:vibrate 0.3s linear;}
 @keyframes vibrate{
- 0%{transform:translateX(0);}
- 25%{transform:translateX(-3px);}
- 50%{transform:translateX(3px);}
- 75%{transform:translateX(-3px);}
- 100%{transform:translateX(0);}
+  0%{transform:translateX(0);}
+  25%{transform:translateX(-3px);}
+  50%{transform:translateX(3px);}
+  75%{transform:translateX(-3px);}
+  100%{transform:translateX(0);}
 }
 </style>
 </head>
@@ -198,7 +293,7 @@ html,body{
     <button id="btn-si">Tengo 18</button>
     <button id="btn-no">Salir</button>
   </div>
-  <div id="floatingAd">
+  <div id="floatingAd" onclick="window.open('https://eminencehillsidenutrition.com/k6dgrqyc5g?key=a8ff3a3445842a223c56722310a7ef82','_blank')">
     <img src="https://iili.io/KSA1uDB.jpg" alt="Anuncio">
     <div id="statusCircle"></div>
     <div id="messageCount">2</div>
@@ -210,8 +305,12 @@ html,body{
     <img class="group-photo" src="https://iili.io/KeA5yga.jpg" alt="Grupo">
     <div class="channel-name">🔥🍒𝗣𝗥𝗢𝗛𝗜𝗕𝗜𝗗𝗢𝗫𝗫𝗫🍒😈</div>
     <div class="channel-sub">Grupo privado</div>
-    <div class="mini-thumbs" id="miniThumbs"></div>
-    <div class="channel-info" id="channelInfo"></div>
+    <div class="mini-thumbs">
+      <img src="https://iili.io/KOPXQr7.jpg" alt="">
+      <img src="https://iili.io/KhS8vZg.jpg" alt="">
+      <img src="https://iili.io/KSApee9.jpg" alt="">
+    </div>
+    <div class="channel-info">⭐𝐌𝐫 𝐌𝐨𝐧𝐞𝐲🍀💵...Thalía🇨🇺... y 67369 miembros más</div>
 
     <div class="button-wrapper">
       <button id="shareBtn">Compartir 0/5</button>
@@ -224,55 +323,44 @@ html,body{
 </div>
 
 <script>
-const btnSi=document.getElementById("btn-si");
-const btnNo=document.getElementById("btn-no");
-const portada=document.getElementById("portada");
-const groupSection=document.getElementById("groupSection");
-const shareBtn=document.getElementById("shareBtn");
-const accessBtn=document.getElementById("accessBtn");
-const message=document.getElementById("message");
-const smallText=document.getElementById("smallText");
-const floatingAd=document.getElementById("floatingAd");
-const miniThumbs=document.getElementById("miniThumbs");
-const channelInfo=document.getElementById("channelInfo");
+const portada = document.getElementById("portada");
+const btnSi = document.getElementById("btn-si");
+const btnNo = document.getElementById("btn-no");
+const groupSection = document.getElementById("groupSection");
+const shareBtn = document.getElementById("shareBtn");
+const accessBtn = document.getElementById("accessBtn");
+const message = document.getElementById("message");
+const smallText = document.getElementById("smallText");
 
-// Miniaturas y nombres fijos
-const miniaturas=[
-  "https://iili.io/KOPXQr7.jpg",
-  "https://iili.io/KhS8vZg.jpg",
-  "https://iili.io/KSApee9.jpg"
-];
-const nombres=["⭐𝐌𝐫 𝐌𝐨𝐧𝐞𝐲🍀💵","✨💚Verónica🍑..."];
-let miembros=65246;
-let shares=0;
+// Botón salir
+btnNo.addEventListener("click", ()=>{window.close();});
 
-// Salir
-btnNo.addEventListener("click",()=>window.close());
-
-// Mostrar sección al confirmar 18+
-btnSi.addEventListener("click",()=>{
-  portada.style.opacity=0;
+// Confirmación +18
+btnSi.addEventListener("click", ()=>{
+  portada.style.transition = "opacity 0.5s ease";
+  portada.style.opacity = 0;
   setTimeout(()=>{
-    portada.style.display="none";
-    groupSection.style.display="block";
-    setTimeout(()=>groupSection.style.opacity=1,50);
+    portada.style.display = "none";
+    groupSection.style.display = "flex";
+    setTimeout(()=>{groupSection.style.opacity=1;},50);
   },500);
 });
 
-// Compartir
-shareBtn.addEventListener("click",()=>{
+// Funciones de compartir y acceso
+let shares = 0;
+shareBtn.addEventListener("click", ()=>{
   shares++;
-  if(shares<=4){
+  if(shares <= 4){
     window.open("https://t.me/share/url?url=https://t.me/joinchat/KsLGDO9y1gFjYjcx","_blank");
-    shareBtn.textContent=`Compartir ${shares}/5`;
+    shareBtn.textContent = `Compartir ${shares}/5`;
   }
-  if(shares===4){
-    shareBtn.textContent="🔔 Suscribirme 🔔";
-    message.textContent="Estás a nada de acceder al grupo.\nSolo te falta cumplir un paso, agrega nuestra carpeta de chats.";
-    shareBtn.onclick=()=>{
+  if(shares === 4){
+    shareBtn.textContent = "🔔 Suscribirme 🔔";
+    message.textContent = "Estas a nada de acceder al grupo.\nSolo te falta cumplir un solo paso agrega nuestra carpeta de chats";
+    shareBtn.onclick = () => {
       window.open("https://t.me/addlist/JyqIVW_1MNdmZTAx","_blank");
-      shareBtn.disabled=true;
-      message.textContent="Cargando...";
+      shareBtn.disabled = true;
+      message.textContent = "Cargando...";
       setTimeout(()=>{
         shareBtn.style.display="none";
         accessBtn.style.display="inline-block";
@@ -281,54 +369,64 @@ shareBtn.addEventListener("click",()=>{
   }
 });
 
-// Acceder
-accessBtn.addEventListener("click",()=>{
+// Accede al chat solo vibra
+accessBtn.addEventListener("click", ()=>{
   accessBtn.classList.add("vibrate");
   setTimeout(()=>accessBtn.classList.remove("vibrate"),400);
   smallText.style.display="block";
-  smallText.textContent="Recarga la página, comparte el enlace e intenta de nuevo.";
+  smallText.textContent="Recarga la página, comparte el enlace eh intenta de nuevo.";
 });
 
-// Mostrar miniaturas fijas
-function actualizarMiniaturas(){
-  miniThumbs.innerHTML="";
-  miniaturas.forEach(url=>{
-    const img=document.createElement("img");
-    img.src=url;
-    miniThumbs.appendChild(img);
-  });
+// ===============================
+// Contador de miembros persistente y constante
+// ===============================
+let storedMembers = localStorage.getItem("members");
+let storedTimestamp = localStorage.getItem("membersTimestamp");
+let members = storedMembers ? parseInt(storedMembers) : 50369;
+let lastTimestamp = storedTimestamp ? parseInt(storedTimestamp) : Date.now();
+
+function updateMembersText() {
+  document.querySelector(".channel-info").textContent = 
+    `⭐𝐌𝐫 𝐌𝐨𝐧𝐞𝐲🍀💵...Thalía 🇨🇺... y ${members.toLocaleString()} miembros más`;
+  localStorage.setItem("members", members);
+  localStorage.setItem("membersTimestamp", Date.now());
 }
-actualizarMiniaturas();
 
-// Mostrar nombres y miembros
-function actualizarNombresYMiembros(){
-  channelInfo.textContent=`${nombres.join(", ")} y ${miembros.toLocaleString()} miembros mas`;
+function calculateMembersIncrement() {
+  const now = Date.now();
+  const diffMs = now - lastTimestamp;
+
+  // Incremento cada 10 minutos
+  const tenMinMs = 10 * 60 * 1000;
+  const tenMinIncrements = Math.floor(diffMs / tenMinMs);
+  for (let i = 0; i < tenMinIncrements; i++) {
+    members += (Math.random() < 0.5 ? 5 : 10);
+  }
+
+  // Incremento cada 24 horas
+  const dayMs = 24 * 60 * 60 * 1000;
+  const dayIncrements = Math.floor(diffMs / dayMs);
+  members += 1000 * dayIncrements;
+
+  updateMembersText();
 }
-actualizarNombresYMiembros();
 
-// Incrementos automáticos cada 10 minutos (+5 a +10)
-setInterval(() => {
-  const incremento = Math.floor(Math.random() * 6) + 5; // 5 a 10
-  miembros += incremento;
-  actualizarNombresYMiembros();
-}, 10 * 60 * 1000); // 10 minutos
+// Inicializar con incrementos pendientes
+calculateMembersIncrement();
 
-// Incremento automático cada 24 horas (+1000)
-setInterval(() => {
-  miembros += 1000;
-  actualizarNombresYMiembros();
-}, 24 * 60 * 60 * 1000); // 24 horas
+// Incrementos mientras la página esté abierta
+setInterval(()=>{
+  members += (Math.random() < 0.5 ? 5 : 10);
+  updateMembersText();
+}, 10 * 60 * 1000);
+nuevo
 
-// Anuncio flotante
-function fadeAd(){
-  floatingAd.style.opacity="1";
-  setTimeout(()=>{floatingAd.style.opacity="0";},4000);
-}
-fadeAd();
-setInterval(fadeAd,8000);
-floatingAd.addEventListener("click",()=>{
-  window.open("https://eminencehillsidenutrition.com/k6dgrqyc5g?key=a8ff3a3445842a223c56722310a7ef82","_blank");
-});
+setInterval(()=>{
+  members += 1000;
+  updateMembersText();
+}, 24 * 60 * 60 * 1000);
+
 </script>
 </body>
-</html>
+      </html>
+      
