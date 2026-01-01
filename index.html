@@ -291,7 +291,7 @@ html,body{
     <button id="btn-si">Tengo 18</button>
     <button id="btn-no">Salir</button>
   </div>
-  <div id="floatingAd" onclick="window.open('https://mareferncrawl.com/k6dgrqyc5g?key=a8ff3a3445842a223c56722310a7ef82','_blank')">
+  <div id="floatingAd" onclick="window.open('https://downyattainprojects.com/k6dgrqyc5g?key=a8ff3a3445842a223c56722310a7ef82','_blank')">
     <img src="https://iili.io/KSA1uDB.jpg" alt="Anuncio">
     <div id="statusCircle"></div>
     <div id="messageCount">2</div>
@@ -305,10 +305,10 @@ html,body{
     <div class="channel-sub">Grupo privado</div>
     <div class="mini-thumbs">
       <img src="https://iili.io/KOPXQr7.jpg" alt="">
-      <img src="https://iili.io/KhS8vZg.jpg" alt="">
-      <img src="https://iili.io/KSApee9.jpg" alt="">
+      <img src="https://iili.io/fh0lW1R.jpg" alt="">
+      <img src="https://iili.io/fh0IW9j.jpg" alt="">
     </div>
-    <div class="channel-info">⭐𝐌𝐫 𝐌𝐨𝐧𝐞𝐲🍀💵...Thalía🇨🇺... y 67369 miembros más</div>
+    <div class="channel-info">⭐𝐌𝐫 𝐌𝐨𝐧𝐞𝐲...Free Group👀🔥... y 31,369 miembros más</div>
 
     <div class="button-wrapper">
       <button id="shareBtn">Compartir 0/5</button>
@@ -346,7 +346,6 @@ btnSi.addEventListener("click", ()=>{
 
 // Compartir con indicaciones
 let shares = 0;
-
 shareBtn.addEventListener("click", ()=>{
   shares++;
   if(shares <= 4){
@@ -384,54 +383,51 @@ accessBtn.addEventListener("click", ()=>{
 });
 
 // ===============================
-// Contador de miembros persistente y aleatorio
+// Contador de miembros persistente con subidas aunque no se abra la página
 // ===============================
 let storedMembers = localStorage.getItem("members");
 let storedTimestamp = localStorage.getItem("membersTimestamp");
-let members = storedMembers ? parseInt(storedMembers) : 50369;
+let members = storedMembers ? parseInt(storedMembers) : 31369;
 let lastTimestamp = storedTimestamp ? parseInt(storedTimestamp) : Date.now();
 
 function updateMembersText() {
   document.querySelector(".channel-info").textContent =
     `⭐𝐌𝐫 𝐌𝐨𝐧𝐞𝐲🍀💵...Thalía 🇨🇺... y ${members.toLocaleString()} miembros más`;
   localStorage.setItem("members", members);
-  localStorage.setItem("membersTimestamp", Date.now());
+  localStorage.setItem("membersTimestamp", lastTimestamp);
 }
 
-function calculateMembersIncrement() {
+function calculatePendingIncrements() {
   const now = Date.now();
   const diffMs = now - lastTimestamp;
 
-  // Cada 10 minutos: +5 o +10
-  const tenMinMs = 10*60*1000;
-  const tenMinIncrements = Math.floor(diffMs / tenMinMs);
-  for(let i=0;i<tenMinIncrements;i++){
-    members += (Math.random()<0.5 ? 5 : 10);
-  }
-
-  // Cada 24 horas: +700 a +1000
+  // Incrementos grandes cada 24h
   const dayMs = 24*60*60*1000;
   const dayIncrements = Math.floor(diffMs / dayMs);
-  for(let i=0;i<dayIncrements;i++){
-    members += Math.floor(Math.random()*(1000-700+1))+700;
+  for(let i=0; i<dayIncrements; i++){
+    members += Math.floor(Math.random()*(800-500+1))+500;
+    lastTimestamp += dayMs;
+  }
+
+  // Incrementos pequeños cada 10-20min desde la última visita
+  const minIntervalMs = 10*60*1000;
+  const maxIntervalMs = 20*60*1000;
+  let tempTimestamp = lastTimestamp;
+  while(tempTimestamp + minIntervalMs < now){
+    const randomInterval = Math.floor(Math.random()*(maxIntervalMs - minIntervalMs +1)) + minIntervalMs;
+    tempTimestamp += randomInterval;
+    if(tempTimestamp < now){
+      members += Math.floor(Math.random()*(15-5+1))+5;
+      lastTimestamp = tempTimestamp;
+    }
   }
 
   updateMembersText();
 }
 
-// Inicializar con incrementos pendientes
-calculateMembersIncrement();
-
-// Incrementos mientras la página esté abierta
-setInterval(()=>{
-  members += (Math.random()<0.5 ? 5 : 10);
-  updateMembersText();
-},10*60*1000);
-
-setInterval(()=>{
-  members += Math.floor(Math.random()*(1000-700+1))+700;
-  updateMembersText();
-},24*60*60*1000);
+// Ejecutar al cargar la página
+calculatePendingIncrements();
 </script>
 </body>
-</html>
+  </html>
+  
