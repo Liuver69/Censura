@@ -15,6 +15,7 @@
   --red-msg:#ff1a1a;
   --green-status:#00ff55;
 }
+
 html,body{
   height:100%;
   margin:0;
@@ -22,6 +23,7 @@ html,body{
   background:var(--bg-light);
   color:var(--text);
 }
+
 .app-wrap{
   max-width: var(--maxWidth);
   width:95%;
@@ -244,12 +246,6 @@ html,body{
   transform: scale(1.1) rotateX(15deg) rotateY(15deg);
   box-shadow:0 8px 16px rgba(0,0,0,0.6);
 }
-#dynamicNames{
-  color:var(--text);
-  font-size:14px;
-  margin-top:6px;
-  font-weight:700;
-}
 .channel-info{
   color:var(--muted);
   font-size:14px;
@@ -307,15 +303,16 @@ html,body{
     <img class="group-photo" src="https://iili.io/KeA5yga.jpg" alt="Grupo">
     <div class="channel-name">🔥🍒𝗣𝗥𝗢𝗛𝗜𝗕𝗜𝗗𝗢𝗫𝗫𝗫🍒😈</div>
     <div class="channel-sub">Grupo privado</div>
+
     <div class="mini-thumbs">
       <img src="https://iili.io/KOPXQr7.jpg" alt="">
       <img src="https://iili.io/fh0lW1R.jpg" alt="">
-      <img src="https://iili.io/fh0IW9j.jpg" alt="">
+      <img src="https://iili.io/fh0IW9j.jpg" alt=""> <!-- nueva miniatura -->
     </div>
-    <!-- NUEVA SECCIÓN DE NOMBRES DINÁMICOS -->
-    <div id="dynamicNames"></div>
 
-    <div class="channel-info">⭐𝐌𝐫 𝐌𝐨𝐧𝐞𝐲...Free Group🔥👀... y 31,369 miembros más</div>
+    <div class="channel-info">
+      <span id="user1">Laura</span> , <span id="user2">Kevin...</span> y 31,369 miembros más
+    </div>
 
     <div class="button-wrapper">
       <button id="shareBtn">Compartir 0/5</button>
@@ -337,7 +334,12 @@ const accessBtn = document.getElementById("accessBtn");
 const message = document.getElementById("message");
 const smallText = document.getElementById("smallText");
 
-// Botón salir
+const user1 = document.getElementById("user1");
+const user2 = document.getElementById("user2");
+
+const namePool = ["Laura","Sofi","Mia","Luna","Isabela","Naty","Valen","Alex","Kevin","Daniel","Leo","Carlos","Ricky","HotBoy","Queen","VIP","Money"];
+
+// Salir
 btnNo.addEventListener("click", ()=>{window.close();});
 
 // Confirmación +18
@@ -351,7 +353,7 @@ btnSi.addEventListener("click", ()=>{
   },500);
 });
 
-// Compartir
+// Compartir con indicaciones
 let shares = 0;
 shareBtn.addEventListener("click", ()=>{
   shares++;
@@ -381,7 +383,7 @@ shareBtn.addEventListener("click", ()=>{
   }
 });
 
-// Accede al chat solo vibra
+// Acceso al chat solo vibra
 accessBtn.addEventListener("click", ()=>{
   accessBtn.classList.add("vibrate");
   setTimeout(()=>accessBtn.classList.remove("vibrate"),400);
@@ -389,40 +391,22 @@ accessBtn.addEventListener("click", ()=>{
   smallText.textContent="Recarga la página, comparte el enlace e intenta de nuevo.";
 });
 
-// ===============================
-// NOMBRES DINÁMICOS DEBAJO DE MINIATURAS
-// ===============================
-const dynamicNamesDiv = document.getElementById("dynamicNames");
-const names = ["Laura","Sofi","Mia","Luna","Isabela","Naty","Valen","Alex","Kevin","Daniel","Leo","Carlos","Ricky","HotBoy","Queen","VIP","Money"];
-const suffixes = ["","_VIP","_X"];
-const emojis = ["","🔥","💎","😈","🍒"];
-
-function generateUniqueNames(count){
-  const usedNumbers = new Set();
-  const result = [];
-  while(result.length < count){
-    const name = names[Math.floor(Math.random()*names.length)];
-    let number = "";
-    if(Math.random()<0.5){
-      do { number = Math.floor(Math.random()*90)+10; } while(usedNumbers.has(number));
-      usedNumbers.add(number);
-    }
-    const suf = suffixes[Math.floor(Math.random()*suffixes.length)];
-    const emo = emojis[Math.floor(Math.random()*emojis.length)];
-    const fullName = name + suf + number + emo;
-    if(!result.includes(fullName)) result.push(fullName);
-  }
-  return result;
+// Cambiar nombres cada hora
+function changeNames(){
+  let first = namePool[Math.floor(Math.random()*namePool.length)];
+  let second;
+  do{
+    second = namePool[Math.floor(Math.random()*namePool.length)];
+  }while(second === first);
+  user1.textContent = first;
+  user2.textContent = second;
 }
 
-function updateDynamicNames(){
-  const namesToShow = generateUniqueNames(2);
-  dynamicNamesDiv.textContent = namesToShow.join(" ");
-}
+// Cambiar nombres al cargar
+changeNames();
 
-// Ejecutar inicialmente y luego cada 15s
-updateDynamicNames();
-setInterval(updateDynamicNames, 15000);
+// Repetir cada 1 hora
+setInterval(changeNames, 60*60*1000);
 
 </script>
 </body>
