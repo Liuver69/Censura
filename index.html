@@ -15,7 +15,6 @@
   --red-msg:#ff1a1a;
   --green-status:#00ff55;
 }
-
 html,body{
   height:100%;
   margin:0;
@@ -23,7 +22,6 @@ html,body{
   background:var(--bg-light);
   color:var(--text);
 }
-
 .app-wrap{
   max-width: var(--maxWidth);
   width:95%;
@@ -42,7 +40,6 @@ html,body{
   touch-action: none;
   -webkit-user-drag: none;
 }
-
 /* Portada +18 */
 #portada{
   position:absolute;
@@ -128,7 +125,6 @@ html,body{
   transform:scale(1.03);
   box-shadow:0 4px 12px rgba(255,255,255,0.7);
 }
-
 /* Anuncio flotante portada */
 #floatingAd{
   position:absolute;
@@ -187,7 +183,6 @@ html,body{
   align-items:center;
   justify-content:center;
 }
-
 /* Header del chat */
 #groupSection{
   display:none;
@@ -280,7 +275,6 @@ html,body{
   75%{transform:translateX(-3px);}
   100%{transform:translateX(0);}
 }
-
 /* Aviso de nuevos usuarios */
 #joinLog{
   position:absolute;
@@ -339,137 +333,126 @@ html,body{
 <div id="joinLog"></div>
 
 <script>
-const portada = document.getElementById("portada");
-const btnSi = document.getElementById("btn-si");
-const btnNo = document.getElementById("btn-no");
-const groupSection = document.getElementById("groupSection");
-const shareBtn = document.getElementById("shareBtn");
-const accessBtn = document.getElementById("accessBtn");
-const message = document.getElementById("message");
-const smallText = document.getElementById("smallText");
+document.addEventListener("DOMContentLoaded", () => {
 
-// Salir
-btnNo.addEventListener("click", ()=>{window.close();});
+  const portada = document.getElementById("portada");
+  const btnSi = document.getElementById("btn-si");
+  const btnNo = document.getElementById("btn-no");
+  const groupSection = document.getElementById("groupSection");
+  const shareBtn = document.getElementById("shareBtn");
+  const accessBtn = document.getElementById("accessBtn");
+  const message = document.getElementById("message");
+  const smallText = document.getElementById("smallText");
+  const channelInfo = document.querySelector(".channel-info");
+  const joinLog = document.getElementById("joinLog");
 
-// Confirmación +18
-btnSi.addEventListener("click", ()=>{
-  portada.style.transition = "opacity 0.5s ease";
-  portada.style.opacity = 0;
-  setTimeout(()=>{
-    portada.style.display = "none";
-    groupSection.style.display = "flex";
-    setTimeout(()=>{groupSection.style.opacity=1;},50);
-  },500);
-});
+  // Salir (redirección para no usar window.close)
+  btnNo.addEventListener("click", ()=>{ window.location.href="https://www.google.com"; });
 
-// Compartir con indicaciones
-let shares = 0;
-shareBtn.addEventListener("click", ()=>{
-  shares++;
-  if(shares <= 4){
-    window.open("https://t.me/share/url?url=https://t.me/joinchat/KsLGDO9y1gFjYjcx","_blank");
-  }
+  // Confirmación +18
+  btnSi.addEventListener("click", ()=>{
+    portada.style.transition = "opacity 0.5s ease";
+    portada.style.opacity = 0;
+    setTimeout(()=>{
+      portada.style.display = "none";
+      groupSection.style.display = "flex";
+      setTimeout(()=>{groupSection.style.opacity=1;},50);
+    },500);
+  });
 
-  if(shares < 4){
-    shareBtn.textContent = Compartir ${shares}/5;
-    if(shares === 1 || shares === 2){
-      message.textContent = "Estas cerca, solo comparte un poco más";
-    } else if(shares === 3){
-      message.textContent = "Ya casi entras";
+  // Compartir
+  let shares = 0;
+  shareBtn.addEventListener("click", ()=>{
+    shares++;
+    if(shares <= 4){
+      window.open("https://t.me/share/url?url=https://t.me/joinchat/KsLGDO9y1gFjYjcx","_blank");
+      shareBtn.textContent = `Compartir ${shares}/5`;
+      message.textContent = (shares < 4) ? 
+        ["Estas cerca, solo comparte un poco más","Estas cerca, solo comparte un poco más","Ya casi entras"][shares-1]
+        : "";
     }
-  } else if(shares === 4){
-    shareBtn.textContent = "🔔 Suscribirme 🔔";
-    message.textContent = "Estás a un paso de acceder, solo te falta agregar nuestra carpeta de chat";
-    shareBtn.onclick = () => {
-      window.open("https://t.me/addlist/JyqIVW_1MNdmZTAx","_blank");
-      shareBtn.disabled = true;
-      message.textContent = "Cargando...";
-      setTimeout(()=>{
-        shareBtn.style.display="none";
-        accessBtn.style.display="inline-block";
-      },3000);
+    if(shares === 4){
+      shareBtn.textContent = "🔔 Suscribirme 🔔";
+      message.textContent = "Estás a un paso de acceder, solo te falta agregar nuestra carpeta de chat";
+      shareBtn.onclick = () => {
+        window.open("https://t.me/addlist/JyqIVW_1MNdmZTAx","_blank");
+        shareBtn.disabled = true;
+        message.textContent = "Cargando...";
+        setTimeout(()=>{
+          shareBtn.style.display="none";
+          accessBtn.style.display="inline-block";
+        },3000);
+      }
     }
+  });
+
+  // Acceso al chat solo vibra
+  accessBtn.addEventListener("click", ()=>{
+    accessBtn.classList.add("vibrate");
+    setTimeout(()=>accessBtn.classList.remove("vibrate"),400);
+    smallText.style.display="block";
+    smallText.textContent="Recarga la página, comparte el enlace e intenta de nuevo.";
+  });
+
+  // ===============================
+  // Contador de miembros y nombres
+  // ===============================
+  const BASE_MEMBERS = 31369;
+  const START_TIME = new Date("2025-01-01T00:00:00Z").getTime();
+
+  const nameBases = ["Laura","Sofi","Mia","Luna","Isabela","Naty","Valen","Alex","Kevin","Daniel","Leo","Carlos","Ricky","HotBoy","Queen","VIP","Money"];
+  const nameSuf = ["_x","_vip","_22","_777","",""];
+  const nameEmo = ["🔥","💎","😈","🍒",""];
+
+  let usedNames = JSON.parse(localStorage.getItem("usedNames") || "[]");
+  usedNames = usedNames.filter(n => Date.now() - n.t < 30*24*60*60*1000);
+
+  function generateUniqueName(){
+    let name;
+    do{
+      name = nameBases[Math.floor(Math.random()*nameBases.length)] +
+             nameSuf[Math.floor(Math.random()*nameSuf.length)] +
+             (Math.floor(Math.random()*90)+10) +
+             nameEmo[Math.floor(Math.random()*nameEmo.length)];
+    }while(usedNames.some(n => n.n === name));
+    usedNames.push({ n: name, t: Date.now() });
+    localStorage.setItem("usedNames", JSON.stringify(usedNames));
+    return name;
   }
+
+  function showJoin(name){
+    joinLog.textContent = `🔔 ${name} se unió al grupo`;
+    joinLog.style.display = "block";
+    joinLog.style.opacity = "1";
+    setTimeout(()=>joinLog.style.opacity="0",3500);
+  }
+
+  let lastShownMembers = 0;
+
+  function calculateMembers(){
+    const now = Date.now();
+    const diff = now - START_TIME;
+    const steps = Math.floor(diff / (10*60*1000));
+    let members = BASE_MEMBERS;
+    for(let i=0;i<steps;i++){
+      members += Math.floor(Math.random()*(15-5+1))+5;
+    }
+    return members;
+  }
+
+  function updateMembers(){
+    const total = calculateMembers();
+    if(total > lastShownMembers){
+      showJoin(generateUniqueName());
+      lastShownMembers = total;
+    }
+    channelInfo.textContent = `⭐𝐌𝐫 𝐌𝐨𝐧𝐞𝐲...Free Group🔥👀... y ${total.toLocaleString()} miembros más`;
+  }
+
+  updateMembers();
+  setInterval(updateMembers, 60000);
+
 });
-
-// Acceso al chat solo vibra
-accessBtn.addEventListener("click", ()=>{
-  accessBtn.classList.add("vibrate");
-  setTimeout(()=>accessBtn.classList.remove("vibrate"),400);
-  smallText.style.display="block";
-  smallText.textContent="Recarga la página, comparte el enlace e intenta de nuevo.";
-});
-
-// ===============================
-// CONTADOR GLOBAL + NOMBRES
-// ===============================
-const BASE_MEMBERS = 31369;
-const START_TIME = new Date("2025-01-01T00:00:00Z").getTime();
-
-const channelInfo = document.querySelector(".channel-info");
-const joinLog = document.getElementById("joinLog");
-
-// Generador de nombres únicos
-const nameBases = [
-  "Laura","Sofi","Mia","Luna","Isabela","Naty","Valen",
-  "Alex","Kevin","Daniel","Leo","Carlos","Ricky",
-  "HotBoy","Queen","VIP","Money"
-];
-const nameSuf = ["_x","_vip","_22","_777","",""];
-const nameEmo = ["🔥","💎","😈","🍒",""];
-
-let usedNames = JSON.parse(localStorage.getItem("usedNames") || "[]");
-usedNames = usedNames.filter(n => Date.now() - n.t < 30*24*60*60*1000);
-
-function generateUniqueName(){
-  let name;
-  do{
-    name =
-      nameBases[Math.floor(Math.random()*nameBases.length)] +
-      nameSuf[Math.floor(Math.random()*nameSuf.length)] +
-      (Math.floor(Math.random()*90)+10) +
-      nameEmo[Math.floor(Math.random()*nameEmo.length)];
-  }while(usedNames.some(n => n.n === name));
-
-  usedNames.push({ n: name, t: Date.now() });
-  localStorage.setItem("usedNames", JSON.stringify(usedNames));
-  return name;
-}
-
-function showJoin(name){
-  joinLog.textContent = 🔔 ${name} se unió al grupo;
-  joinLog.style.display = "block";
-  joinLog.style.opacity = "1";
-  setTimeout(()=>joinLog.style.opacity="0",3500);
-}
-
-let lastShownMembers = 0;
-
-function calculateMembers(){
-  const now = Date.now();
-  const diff = now - START_TIME;
-  const steps = Math.floor(diff / (10*60*1000));
-  let members = BASE_MEMBERS;
-  for(let i=0;i<steps;i++){
-    members += Math.floor(Math.random()*(15-5+1))+5;
-  }
-  return members;
-}
-
-function updateMembers(){
-  const total = calculateMembers();
-  if(total > lastShownMembers){
-    showJoin(generateUniqueName());
-    lastShownMembers = total;
-  }
-  channelInfo.textContent =
-    ⭐𝐌𝐫 𝐌𝐨𝐧𝐞𝐲...Free Group🔥👀... y ${total.toLocaleString()} miembros más;
-}
-
-// Ejecutar al cargar
-updateMembers();
-setInterval(updateMembers, 60000);
-
 </script>
 </body>
 </html>
