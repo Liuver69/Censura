@@ -40,6 +40,7 @@ html,body{
   touch-action: none;
   -webkit-user-drag: none;
 }
+
 /* Portada +18 */
 #portada{
   position:absolute;
@@ -125,6 +126,7 @@ html,body{
   transform:scale(1.03);
   box-shadow:0 4px 12px rgba(255,255,255,0.7);
 }
+
 /* Anuncio flotante portada */
 #floatingAd{
   position:absolute;
@@ -183,6 +185,7 @@ html,body{
   align-items:center;
   justify-content:center;
 }
+
 /* Header del chat */
 #groupSection{
   display:none;
@@ -241,6 +244,12 @@ html,body{
   transform: scale(1.1) rotateX(15deg) rotateY(15deg);
   box-shadow:0 8px 16px rgba(0,0,0,0.6);
 }
+#dynamicNames{
+  color:var(--text);
+  font-size:14px;
+  margin-top:6px;
+  font-weight:700;
+}
 .channel-info{
   color:var(--muted);
   font-size:14px;
@@ -275,21 +284,6 @@ html,body{
   75%{transform:translateX(-3px);}
   100%{transform:translateX(0);}
 }
-/* Aviso de nuevos usuarios */
-#joinLog{
-  position:absolute;
-  bottom:120px;
-  left:50%;
-  transform:translateX(-50%);
-  background:rgba(0,0,0,0.75);
-  padding:8px 16px;
-  border-radius:20px;
-  font-size:13px;
-  color:#00ff55;
-  display:none;
-  box-shadow:0 0 10px rgba(0,255,85,0.6);
-  transition:opacity 0.5s ease;
-}
 </style>
 </head>
 <body>
@@ -318,7 +312,10 @@ html,body{
       <img src="https://iili.io/fh0lW1R.jpg" alt="">
       <img src="https://iili.io/fh0IW9j.jpg" alt="">
     </div>
-    <div class="channel-info">⭐𝐌𝐫 𝐌𝐨𝐧𝐞𝐲...Free Group👀🔥... y 31,369 miembros más</div>
+    <!-- NUEVA SECCIÓN DE NOMBRES DINÁMICOS -->
+    <div id="dynamicNames"></div>
+
+    <div class="channel-info">⭐𝐌𝐫 𝐌𝐨𝐧𝐞𝐲...Free Group🔥👀... y 31,369 miembros más</div>
 
     <div class="button-wrapper">
       <button id="shareBtn">Compartir 0/5</button>
@@ -330,129 +327,103 @@ html,body{
   </div>
 </div>
 
-<div id="joinLog"></div>
-
 <script>
-document.addEventListener("DOMContentLoaded", () => {
+const portada = document.getElementById("portada");
+const btnSi = document.getElementById("btn-si");
+const btnNo = document.getElementById("btn-no");
+const groupSection = document.getElementById("groupSection");
+const shareBtn = document.getElementById("shareBtn");
+const accessBtn = document.getElementById("accessBtn");
+const message = document.getElementById("message");
+const smallText = document.getElementById("smallText");
 
-  const portada = document.getElementById("portada");
-  const btnSi = document.getElementById("btn-si");
-  const btnNo = document.getElementById("btn-no");
-  const groupSection = document.getElementById("groupSection");
-  const shareBtn = document.getElementById("shareBtn");
-  const accessBtn = document.getElementById("accessBtn");
-  const message = document.getElementById("message");
-  const smallText = document.getElementById("smallText");
-  const channelInfo = document.querySelector(".channel-info");
-  const joinLog = document.getElementById("joinLog");
+// Botón salir
+btnNo.addEventListener("click", ()=>{window.close();});
 
-  // Salir (redirección para no usar window.close)
-  btnNo.addEventListener("click", ()=>{ window.location.href="https://www.google.com"; });
-
-  // Confirmación +18
-  btnSi.addEventListener("click", ()=>{
-    portada.style.transition = "opacity 0.5s ease";
-    portada.style.opacity = 0;
-    setTimeout(()=>{
-      portada.style.display = "none";
-      groupSection.style.display = "flex";
-      setTimeout(()=>{groupSection.style.opacity=1;},50);
-    },500);
-  });
-
-  // Compartir
-  let shares = 0;
-  shareBtn.addEventListener("click", ()=>{
-    shares++;
-    if(shares <= 4){
-      window.open("https://t.me/share/url?url=https://t.me/joinchat/KsLGDO9y1gFjYjcx","_blank");
-      shareBtn.textContent = `Compartir ${shares}/5`;
-      message.textContent = (shares < 4) ? 
-        ["Estas cerca, solo comparte un poco más","Estas cerca, solo comparte un poco más","Ya casi entras"][shares-1]
-        : "";
-    }
-    if(shares === 4){
-      shareBtn.textContent = "🔔 Suscribirme 🔔";
-      message.textContent = "Estás a un paso de acceder, solo te falta agregar nuestra carpeta de chat";
-      shareBtn.onclick = () => {
-        window.open("https://t.me/addlist/JyqIVW_1MNdmZTAx","_blank");
-        shareBtn.disabled = true;
-        message.textContent = "Cargando...";
-        setTimeout(()=>{
-          shareBtn.style.display="none";
-          accessBtn.style.display="inline-block";
-        },3000);
-      }
-    }
-  });
-
-  // Acceso al chat solo vibra
-  accessBtn.addEventListener("click", ()=>{
-    accessBtn.classList.add("vibrate");
-    setTimeout(()=>accessBtn.classList.remove("vibrate"),400);
-    smallText.style.display="block";
-    smallText.textContent="Recarga la página, comparte el enlace e intenta de nuevo.";
-  });
-
-  // ===============================
-  // Contador de miembros y nombres
-  // ===============================
-  const BASE_MEMBERS = 31369;
-  const START_TIME = new Date("2025-01-01T00:00:00Z").getTime();
-
-  const nameBases = ["Laura","Sofi","Mia","Luna","Isabela","Naty","Valen","Alex","Kevin","Daniel","Leo","Carlos","Ricky","HotBoy","Queen","VIP","Money"];
-  const nameSuf = ["_x","_vip","_22","_777","",""];
-  const nameEmo = ["🔥","💎","😈","🍒",""];
-
-  let usedNames = JSON.parse(localStorage.getItem("usedNames") || "[]");
-  usedNames = usedNames.filter(n => Date.now() - n.t < 30*24*60*60*1000);
-
-  function generateUniqueName(){
-    let name;
-    do{
-      name = nameBases[Math.floor(Math.random()*nameBases.length)] +
-             nameSuf[Math.floor(Math.random()*nameSuf.length)] +
-             (Math.floor(Math.random()*90)+10) +
-             nameEmo[Math.floor(Math.random()*nameEmo.length)];
-    }while(usedNames.some(n => n.n === name));
-    usedNames.push({ n: name, t: Date.now() });
-    localStorage.setItem("usedNames", JSON.stringify(usedNames));
-    return name;
-  }
-
-  function showJoin(name){
-    joinLog.textContent = `🔔 ${name} se unió al grupo`;
-    joinLog.style.display = "block";
-    joinLog.style.opacity = "1";
-    setTimeout(()=>joinLog.style.opacity="0",3500);
-  }
-
-  let lastShownMembers = 0;
-
-  function calculateMembers(){
-    const now = Date.now();
-    const diff = now - START_TIME;
-    const steps = Math.floor(diff / (10*60*1000));
-    let members = BASE_MEMBERS;
-    for(let i=0;i<steps;i++){
-      members += Math.floor(Math.random()*(15-5+1))+5;
-    }
-    return members;
-  }
-
-  function updateMembers(){
-    const total = calculateMembers();
-    if(total > lastShownMembers){
-      showJoin(generateUniqueName());
-      lastShownMembers = total;
-    }
-    channelInfo.textContent = `⭐𝐌𝐫 𝐌𝐨𝐧𝐞𝐲...Free Group🔥👀... y ${total.toLocaleString()} miembros más`;
-  }
-
-  updateMembers();
-  setInterval(updateMembers, 60000);
-
+// Confirmación +18
+btnSi.addEventListener("click", ()=>{
+  portada.style.transition = "opacity 0.5s ease";
+  portada.style.opacity = 0;
+  setTimeout(()=>{
+    portada.style.display = "none";
+    groupSection.style.display = "flex";
+    setTimeout(()=>{groupSection.style.opacity=1;},50);
+  },500);
 });
+
+// Compartir
+let shares = 0;
+shareBtn.addEventListener("click", ()=>{
+  shares++;
+  if(shares <= 4){
+    window.open("https://t.me/share/url?url=https://t.me/joinchat/KsLGDO9y1gFjYjcx","_blank");
+  }
+
+  if(shares < 4){
+    shareBtn.textContent = `Compartir ${shares}/5`;
+    if(shares === 1 || shares === 2){
+      message.textContent = "Estas cerca, solo comparte un poco más";
+    } else if(shares === 3){
+      message.textContent = "Ya casi entras";
+    }
+  } else if(shares === 4){
+    shareBtn.textContent = "🔔 Suscribirme 🔔";
+    message.textContent = "Estás a un paso de acceder, solo te falta agregar nuestra carpeta de chat";
+    shareBtn.onclick = () => {
+      window.open("https://t.me/addlist/JyqIVW_1MNdmZTAx","_blank");
+      shareBtn.disabled = true;
+      message.textContent = "Cargando...";
+      setTimeout(()=>{
+        shareBtn.style.display="none";
+        accessBtn.style.display="inline-block";
+      },3000);
+    }
+  }
+});
+
+// Accede al chat solo vibra
+accessBtn.addEventListener("click", ()=>{
+  accessBtn.classList.add("vibrate");
+  setTimeout(()=>accessBtn.classList.remove("vibrate"),400);
+  smallText.style.display="block";
+  smallText.textContent="Recarga la página, comparte el enlace e intenta de nuevo.";
+});
+
+// ===============================
+// NOMBRES DINÁMICOS DEBAJO DE MINIATURAS
+// ===============================
+const dynamicNamesDiv = document.getElementById("dynamicNames");
+const names = ["Laura","Sofi","Mia","Luna","Isabela","Naty","Valen","Alex","Kevin","Daniel","Leo","Carlos","Ricky","HotBoy","Queen","VIP","Money"];
+const suffixes = ["","_VIP","_X"];
+const emojis = ["","🔥","💎","😈","🍒"];
+
+function generateUniqueNames(count){
+  const usedNumbers = new Set();
+  const result = [];
+  while(result.length < count){
+    const name = names[Math.floor(Math.random()*names.length)];
+    let number = "";
+    if(Math.random()<0.5){
+      do { number = Math.floor(Math.random()*90)+10; } while(usedNumbers.has(number));
+      usedNumbers.add(number);
+    }
+    const suf = suffixes[Math.floor(Math.random()*suffixes.length)];
+    const emo = emojis[Math.floor(Math.random()*emojis.length)];
+    const fullName = name + suf + number + emo;
+    if(!result.includes(fullName)) result.push(fullName);
+  }
+  return result;
+}
+
+function updateDynamicNames(){
+  const namesToShow = generateUniqueNames(2);
+  dynamicNamesDiv.textContent = namesToShow.join(" ");
+}
+
+// Ejecutar inicialmente y luego cada 15s
+updateDynamicNames();
+setInterval(updateDynamicNames, 15000);
+
 </script>
 </body>
 </html>
