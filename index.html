@@ -96,32 +96,36 @@ html,body{height:100%;margin:0;font-family:Roboto,Inter,system-ui,"Helvetica Neu
 <script>
 document.addEventListener("DOMContentLoaded", () => {
 
-  const btnSi = document.getElementById("btn-si");
-  const btnNo = document.getElementById("btn-no");
-  const portada = document.getElementById("portada");
-  const groupSection = document.getElementById("groupSection");
   const shareBtn = document.getElementById("shareBtn");
   const accessBtn = document.getElementById("accessBtn");
   const message = document.getElementById("message");
   const smallText = document.getElementById("smallText");
   const memberCount = document.getElementById("memberCount");
 
-  // --- Botón Tengo 18 ---
-  function showGroup() {
-    portada.style.transition = "opacity 0.5s ease";
-    portada.style.opacity = 0;
-    setTimeout(() => {
-      portada.style.display = "none";
-      groupSection.style.display = "flex";
-      setTimeout(() => groupSection.style.opacity = 1, 50);
-    }, 500);
+  // --- Inicializar portada y botón Tengo 18 ---
+  function initPortada() {
+    const btnSi = document.getElementById("btn-si");
+    const btnNo = document.getElementById("btn-no");
+    const portada = document.getElementById("portada");
+    const groupSection = document.getElementById("groupSection");
+
+    function showGroup() {
+      portada.style.transition = "opacity 0.5s ease";
+      portada.style.opacity = 0;
+      setTimeout(() => {
+        portada.style.display = "none";
+        groupSection.style.display = "flex";
+        setTimeout(() => groupSection.style.opacity = 1, 50);
+      }, 500);
+    }
+
+    btnSi.addEventListener("click", showGroup);
+    btnSi.addEventListener("touchend", showGroup);
+
+    btnNo.addEventListener("click", () => { alert("Debes tener más de 18 años para continuar"); });
+    btnNo.addEventListener("touchend", () => { alert("Debes tener más de 18 años para continuar"); });
   }
-
-  btnSi.addEventListener("click", showGroup);
-  btnSi.addEventListener("touchend", showGroup);
-
-  btnNo.addEventListener("click", () => { alert("Debes tener más de 18 años para continuar"); });
-  btnNo.addEventListener("touchend", () => { alert("Debes tener más de 18 años para continuar"); });
+  initPortada();
 
   // --- Compartir robusto ---
   let shares = 0;
@@ -165,7 +169,6 @@ document.addEventListener("DOMContentLoaded", () => {
     updateShareUI();
   });
 
-  // --- Acceso ---
   accessBtn.addEventListener("click", ()=>{
     accessBtn.classList.add("vibrate");
     setTimeout(()=>accessBtn.classList.remove("vibrate"),400);
