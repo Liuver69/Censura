@@ -315,33 +315,37 @@ html,body{
     </div>
 
     <div class="button-wrapper">
-      <button id="shareBtn" type="button">Compartir 0/5</button>
+      <button id="shareBtn" type="button">Compartir 0/6</button>
     </div>
 
     <button id="accessBtn" type="button">Accede al chat 👈</button>
-    <div id="message">Debes compartir el enlace 5 veces para acceder</div>
+    <div id="message">Debes compartir el enlace 6 veces para acceder</div>
     <div id="smallText"></div>
   </div>
 </div>
 
 <script>
 // --- BOTONES PORTADA ---
-const portada = document.getElementById("portada");
 const btnSi = document.getElementById("btn-si");
 const btnNo = document.getElementById("btn-no");
+const portada = document.getElementById("portada");
 const groupSection = document.getElementById("groupSection");
 
-btnNo.addEventListener("click", ()=>{ window.close(); });
-
-btnSi.addEventListener("click", ()=>{
+function openGroupSection() {
   portada.style.transition = "opacity 0.5s ease";
   portada.style.opacity = 0;
   setTimeout(()=>{
     portada.style.display = "none";
     groupSection.style.display = "flex";
-    setTimeout(()=>{ groupSection.style.opacity=1; },50);
+    setTimeout(()=>{ groupSection.style.opacity = 1; },50);
   },500);
-});
+}
+
+// Escuchamos click y touchend para WebView de Telegram
+btnSi.addEventListener("click", openGroupSection);
+btnSi.addEventListener("touchend", openGroupSection);
+
+btnNo.addEventListener("click", ()=>{ window.close(); });
 
 // --- BOTÓN COMPARTIR ---
 const shareBtn = document.getElementById("shareBtn");
@@ -354,10 +358,10 @@ let lastClick = 0;
 
 function updateShareUI() {
   if(shares < 5) shareBtn.textContent = Compartir ${shares}/5;
-  if (shares === 1 || shares === 2) message.textContent = "Estas cerca, solo comparte un poco más";
-  else if (shares === 3) message.textContent = "Ya casi entras";
-  else if (shares === 4) message.textContent = "Último paso, comparte otra vez en WhatsApp";
-  else if (shares === 5) {
+  if(shares === 1 || shares === 2) message.textContent = "Estas cerca, solo comparte un poco más";
+  else if(shares === 3) message.textContent = "Ya casi entras";
+  else if(shares === 4) message.textContent = "Último paso, comparte otra vez en WhatsApp";
+  else if(shares === 5){
     shareBtn.textContent = "🔔 Suscribirme 🔔";
     message.textContent = "Estás a un paso de acceder, solo te falta agregar nuestra carpeta de chat";
     shareBtn.onclick = () => {
@@ -376,7 +380,7 @@ function openWhatsApp(msg){
 
 shareBtn.addEventListener("click", ()=>{
   const now = Date.now();
-  if(now - lastClick < 1500) return; // cooldown 1.5s
+  if(now - lastClick < 1500) return; // cooldown
   lastClick = now;
 
   if(shares < 3){
