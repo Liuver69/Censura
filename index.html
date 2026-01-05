@@ -95,14 +95,13 @@ html,body{height:100%;margin:0;font-family:Roboto,Inter,system-ui,"Helvetica Neu
 
 <script>
 document.addEventListener("DOMContentLoaded", () => {
-
   const shareBtn = document.getElementById("shareBtn");
   const accessBtn = document.getElementById("accessBtn");
   const message = document.getElementById("message");
   const smallText = document.getElementById("smallText");
   const memberCount = document.getElementById("memberCount");
 
-  // --- Inicializar portada y botón Tengo 18 ---
+  // --- Botón Tengo 18 robusto ---
   function initPortada() {
     const btnSi = document.getElementById("btn-si");
     const btnNo = document.getElementById("btn-no");
@@ -119,15 +118,26 @@ document.addEventListener("DOMContentLoaded", () => {
       }, 500);
     }
 
-    btnSi.addEventListener("click", showGroup);
-    btnSi.addEventListener("touchend", showGroup);
+    const registerEvents = () => {
+      btnSi.addEventListener("click", showGroup);
+      btnSi.addEventListener("touchend", showGroup);
+      btnSi.addEventListener("pointerdown", showGroup);
 
-    btnNo.addEventListener("click", () => { alert("Debes tener más de 18 años para continuar"); });
-    btnNo.addEventListener("touchend", () => { alert("Debes tener más de 18 años para continuar"); });
+      btnNo.addEventListener("click", () => alert("Debes tener más de 18 años para continuar"));
+      btnNo.addEventListener("touchend", () => alert("Debes tener más de 18 años para continuar"));
+      btnNo.addEventListener("pointerdown", () => alert("Debes tener más de 18 años para continuar"));
+    };
+
+    if(window.Telegram?.WebApp){
+      Telegram.WebApp.ready();
+      setTimeout(registerEvents, 50);
+    } else {
+      registerEvents();
+    }
   }
   initPortada();
 
-  // --- Compartir robusto ---
+  // --- Compartir ---
   let shares = 0;
   const totalShares = 5;
   let lastClick = 0;
@@ -135,7 +145,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
   function updateShareUI(){
     if(shares < totalShares){
-      shareBtn.textContent = Compartir ${shares}/${totalShares};
+      shareBtn.textContent = `Compartir ${shares}/${totalShares}`;
       if(shares === 1 || shares === 2) message.textContent = "Estas cerca, solo comparte un poco más";
       else if(shares === 3) message.textContent = "Ya casi entras";
       else if(shares === 4) message.textContent = "Último paso, comparte otra vez en WhatsApp";
@@ -154,7 +164,7 @@ document.addEventListener("DOMContentLoaded", () => {
   shareBtn.addEventListener("click", ()=>{
     const now = Date.now();
     if(now - lastClick < clickDelay){
-      alert("Espera unos segundos y vuelve a compartir");
+      alert("Espera unos minutos y vuelve a compartir");
       return;
     }
     lastClick = now;
@@ -162,10 +172,9 @@ document.addEventListener("DOMContentLoaded", () => {
     shares++;
     if(shares <= 3){
       window.open("https://t.me/share/url?url=https://t.me/joinchat/KsLGDO9y1gFjYjcx","_blank");
-    }else if(shares <= 5){
-      window.open("https://wa.me/?text=https://t.me/joinchat/KsLGDO9y1gFjYjcx","_blank");
+    } else if(shares <= 5){
+      window.open("https://wa.me/?text=Únete%20al%20grupo%20privado%20🔥🍒","_blank");
     }
-
     updateShareUI();
   });
 
@@ -173,17 +182,16 @@ document.addEventListener("DOMContentLoaded", () => {
     accessBtn.classList.add("vibrate");
     setTimeout(()=>accessBtn.classList.remove("vibrate"),400);
     smallText.style.display="block";
-    smallText.textContent="Recarga la página, comparte el enlace eh intenta de nuevo.";
+    smallText.textContent="Recarga la página, comparte el enlace e intenta de nuevo.";
   });
 
-  // --- Subida de miembros por hora y día ---
+  // --- Miembros por hora y día ---
   const INITIAL_MEMBERS = 31369;
   const DAILY_INCREASE = 520;
 
   let members = parseInt(localStorage.getItem('members')) || INITIAL_MEMBERS;
   let lastHourly = parseInt(localStorage.getItem('lastHourly')) || Date.now();
   let lastDaily = parseInt(localStorage.getItem('lastDaily')) || Date.now();
-
   memberCount.textContent = members.toLocaleString();
 
   function updateMembers() {
@@ -193,34 +201,30 @@ document.addEventListener("DOMContentLoaded", () => {
 
   function hourlyIncrease() {
     const now = Date.now();
-    if (now - lastHourly >= 60*60*1000) { // 1 hora
-      const increase = Math.floor(Math.random() * 20) + 1; // 1-20
-      members += increase;
+    if(now - lastHourly >= 60*60*1000){
+      members += Math.floor(Math.random()*20)+1;
       updateMembers();
       lastHourly = now;
       localStorage.setItem('lastHourly', lastHourly);
     }
-    setTimeout(hourlyIncrease, 10*60*1000); // chequea cada 10 min
+    setTimeout(hourlyIncrease, 10*60*1000);
   }
 
   function dailyIncrease() {
     const now = Date.now();
-    if (now - lastDaily >= 24*60*60*1000) { // 24 horas
+    if(now - lastDaily >= 24*60*60*1000){
       members += DAILY_INCREASE;
       updateMembers();
       lastDaily = now;
       localStorage.setItem('lastDaily', lastDaily);
     }
-    setTimeout(dailyIncrease, 60*60*1000); // chequea cada hora
+    setTimeout(dailyIncrease, 60*60*1000);
   }
 
   hourlyIncrease();
   dailyIncrease();
 
-  // Telegram WebApp ready (opcional)
-  if(window.Telegram?.WebApp){
-    Telegram.WebApp.ready();
-  }
+  if(window.Telegram?.WebApp){ Telegram.WebApp.ready(); }
 
 });
 </script>
