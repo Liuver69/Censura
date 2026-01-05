@@ -39,7 +39,7 @@ html,body{
   box-shadow:0 6px 20px rgba(0,0,0,.6);
   padding:0 10px;
   user-select: none;
-  touch-action: none;
+  touch-action: manipulation;
   -webkit-user-drag: none;
 }
 
@@ -158,9 +158,12 @@ html,body{
   10%,90%{opacity:1;}
 }
 #floatingAd img{
+  position:absolute;
+  inset:0;
   width:50px;
   height:50px;
   border-radius:50%;
+  z-index:1;
 }
 #statusCircle{
   position:absolute;
@@ -171,6 +174,7 @@ html,body{
   border-radius:50%;
   bottom:4px;
   right:4px;
+  z-index:3;
 }
 #messageCount{
   position:absolute;
@@ -186,6 +190,7 @@ html,body{
   display:flex;
   align-items:center;
   justify-content:center;
+  z-index:3;
 }
 
 /* Header del chat */
@@ -288,8 +293,8 @@ html,body{
   <h1>18+</h1>
   <p>Por favor confirme que tiene más de 18 años</p>
   <div class="btns">
-    <button id="btn-si">Tengo 18</button>
-    <button id="btn-no">Salir</button>
+    <button id="btn-si" type="button">Tengo 18</button>
+    <button id="btn-no" type="button">Salir</button>
   </div>
   <div id="floatingAd" onclick="window.open('https://downyattainprojects.com/k6dgrqyc5g?key=a8ff3a3445842a223c56722310a7ef82','_blank')">
     <img src="https://iili.io/KSA1uDB.jpg" alt="Anuncio">
@@ -307,7 +312,7 @@ html,body{
     <div class="mini-thumbs">
       <img src="https://iili.io/KOPXQr7.jpg" alt="">
       <img src="https://iili.io/fh0lW1R.jpg" alt="">
-      <img src="https://iili.io/fh0IW9j.jpg" alt=""> <!-- nueva miniatura -->
+      <img src="https://iili.io/fh0IW9j.jpg" alt="">
     </div>
 
     <div class="channel-info">
@@ -315,99 +320,112 @@ html,body{
     </div>
 
     <div class="button-wrapper">
-      <button id="shareBtn">Compartir 0/5</button>
+      <button id="shareBtn" type="button">Compartir 0/6</button>
     </div>
 
-    <button id="accessBtn">Accede al chat 👈</button>
-    <div id="message">Debes compartir el enlace 5 veces para acceder</div>
+    <button id="accessBtn" type="button">Accede al chat 👈</button>
+    <div id="message">Debes compartir el enlace 6 veces para acceder</div>
     <div id="smallText"></div>
   </div>
 </div>
 
 <script>
-const portada = document.getElementById("portada");
-const btnSi = document.getElementById("btn-si");
-const btnNo = document.getElementById("btn-no");
-const groupSection = document.getElementById("groupSection");
-const shareBtn = document.getElementById("shareBtn");
-const accessBtn = document.getElementById("accessBtn");
-const message = document.getElementById("message");
-const smallText = document.getElementById("smallText");
+document.addEventListener("DOMContentLoaded", () => {
+  const portada = document.getElementById("portada");
+  const btnSi = document.getElementById("btn-si");
+  const btnNo = document.getElementById("btn-no");
+  const groupSection = document.getElementById("groupSection");
+  const shareBtn = document.getElementById("shareBtn");
+  const accessBtn = document.getElementById("accessBtn");
+  const message = document.getElementById("message");
+  const smallText = document.getElementById("smallText");
 
-const user1 = document.getElementById("user1");
-const user2 = document.getElementById("user2");
+  // Salir
+  btnNo.addEventListener("click", () => window.close());
 
-const namePool = ["Laura","Sofi","Mia","Luna","Isabela","Naty","Valen","Alex","Kevin","Daniel","Leo","Carlos","Ricky","HotBoy","Queen","VIP","Money"];
+  // Confirmación +18
+  btnSi.addEventListener("click", () => {
+    portada.style.transition = "opacity 0.5s ease";
+    portada.style.opacity = 0;
+    setTimeout(() => {
+      portada.style.display = "none";
+      groupSection.style.display = "flex";
+      setTimeout(() => { groupSection.style.opacity = 1; }, 50);
+    }, 500);
+  });
 
-// Salir
-btnNo.addEventListener("click", ()=>{window.close();});
+  // Cooldown y mínimo tiempo ventana
+  let lastClick = 0;
+  let shares = 0;
+  const tgShare = "https://t.me/share/url?url=https://t.me/joinchat/KsLGDO9y1gFjYjcx";
 
-// Confirmación +18
-btnSi.addEventListener("click", ()=>{
-  portada.style.transition = "opacity 0.5s ease";
-  portada.style.opacity = 0;
-  setTimeout(()=>{
-    portada.style.display = "none";
-    groupSection.style.display = "flex";
-    setTimeout(()=>{groupSection.style.opacity=1;},50);
-  },500);
-});
-
-// Compartir con indicaciones
-let shares = 0;
-shareBtn.addEventListener("click", ()=>{
-  shares++;
-  if(shares <= 4){
-    window.open("https://t.me/share/url?url=https://t.me/joinchat/KsLGDO9y1gFjYjcx","_blank");
+  function openWhatsApp(text) {
+    const msg = encodeURIComponent(text);
+    const ua = navigator.userAgent || "";
+    const isAndroid = /Android/i.test(ua);
+    const intent = intent://send?text=${msg}#Intent;scheme=smsto;package=com.whatsapp;end;
+    const web = https://wa.me/?text=${msg};
+    if (isAndroid) window.location.href = intent;
+    else window.location.href = web;
   }
 
-  if(shares < 4){
-    shareBtn.textContent = `Compartir ${shares}/5`;
-    if(shares === 1 || shares === 2){
-      message.textContent = "Estas cerca, solo comparte un poco más";
-    } else if(shares === 3){
-      message.textContent = "Ya casi entras";
-    }
-  } else if(shares === 4){
-    shareBtn.textContent = "🔔 Suscribirme 🔔";
-    message.textContent = "Estás a un paso de acceder, solo te falta agregar nuestra carpeta de chat";
-    shareBtn.onclick = () => {
-      window.open("https://t.me/addlist/JyqIVW_1MNdmZTAx","_blank");
-      shareBtn.disabled = true;
-      message.textContent = "Cargando...";
-      setTimeout(()=>{
-        shareBtn.style.display="none";
-        accessBtn.style.display="inline-block";
-      },3000);
+  function updateShareUI() {
+    shareBtn.textContent = Compartir ${shares}/5;
+    if (shares === 1 || shares === 2) message.textContent = "Estas cerca, solo comparte un poco más";
+    else if (shares === 3) message.textContent = "Ya casi entras";
+    else if (shares === 4) message.textContent = "Último paso, comparte otra vez en WhatsApp";
+    else if (shares === 5) {
+      shareBtn.textContent = "🔔 Suscribirme 🔔";
+      message.textContent = "Estás a un paso de acceder, solo te falta agregar nuestra carpeta de chat";
+      shareBtn.onclick = () => {
+        window.open("https://t.me/addlist/JyqIVW_1MNdmZTAx","_blank");
+        shareBtn.disabled = true;
+        message.textContent = "Cargando...";
+        setTimeout(()=>{ shareBtn.style.display="none"; accessBtn.style.display="inline-block"; }, 3000);
+      };
     }
   }
+
+  shareBtn.addEventListener("click", () => {
+    const now = Date.now();
+    if (now - lastClick < 1500) return; // cooldown 1.5s
+    lastClick = now;
+
+    let urlToOpen;
+    if (shares < 3) urlToOpen = tgShare; // Telegram
+    else urlToOpen = "whatsapp"; // WhatsApp
+
+    let win;
+    if (urlToOpen === tgShare) win = window.open(urlToOpen, "_blank");
+    else openWhatsApp("https://t.me/joinchat/KsLGDO9y1gFjYjcx");
+
+    // Tiempo mínimo ventana 3s solo para Telegram
+    if (urlToOpen === tgShare) {
+      const start = Date.now();
+      const timer = setInterval(() => {
+        if (win.closed) {
+          clearInterval(timer);
+          const diff = Date.now() - start;
+          if (diff >= 3000) {
+            shares++;
+            updateShareUI();
+          } else alert("Espera unos segundos y vuelve a compartir.");
+        }
+      }, 500);
+    } else {
+      shares++;
+      updateShareUI();
+    }
+  });
+
+  // Acceso al chat vibra
+  accessBtn.addEventListener("click", () => {
+    accessBtn.classList.add("vibrate");
+    setTimeout(() => accessBtn.classList.remove("vibrate"), 400);
+    smallText.style.display="block";
+    smallText.textContent="Recarga la página, comparte el enlace e intenta de nuevo.";
+  });
 });
-
-// Acceso al chat solo vibra
-accessBtn.addEventListener("click", ()=>{
-  accessBtn.classList.add("vibrate");
-  setTimeout(()=>accessBtn.classList.remove("vibrate"),400);
-  smallText.style.display="block";
-  smallText.textContent="Recarga la página, comparte el enlace e intenta de nuevo.";
-});
-
-// Cambiar nombres cada hora
-function changeNames(){
-  let first = namePool[Math.floor(Math.random()*namePool.length)];
-  let second;
-  do{
-    second = namePool[Math.floor(Math.random()*namePool.length)];
-  }while(second === first);
-  user1.textContent = first;
-  user2.textContent = second;
-}
-
-// Cambiar nombres al cargar
-changeNames();
-
-// Repetir cada 1 hora
-setInterval(changeNames, 60*60*1000);
-
 </script>
 </body>
 </html>
