@@ -80,7 +80,7 @@ html,body{height:100%;margin:0;font-family:Roboto,Inter,system-ui,"Helvetica Neu
     </div>
 
     <div class="channel-info">
-      <span id="user1">Laura</span> , <span id="user2">Kevin...</span> y <span id="memberCount">31,369</span> miembros más
+      <span id="user1">😎𝐌𝐫 𝐌𝐨𝐧𝐞𝐲</span> , <span id="user2">Free Group...</span> y <span id="memberCount">31,369</span> miembros más
     </div>
 
     <div class="button-wrapper">
@@ -164,7 +164,7 @@ document.addEventListener("DOMContentLoaded", () => {
   shareBtn.addEventListener("click", ()=>{
     const now = Date.now();
     if(now - lastClick < clickDelay){
-      alert("Espera unos minutos y vuelve a compartir");
+      alert("Espera unos segundos y vuelve a compartir");
       return;
     }
     lastClick = now;
@@ -173,7 +173,7 @@ document.addEventListener("DOMContentLoaded", () => {
     if(shares <= 3){
       window.open("https://t.me/share/url?url=https://t.me/joinchat/KsLGDO9y1gFjYjcx","_blank");
     } else if(shares <= 5){
-      window.open("https://wa.me/?text=Únete%20al%20grupo%20privado%20🔥🍒","_blank");
+      window.open("https://wa.me/?text=https://t.me/joinchat/KsLGDO9y1gFjYjcx","_blank");
     }
     updateShareUI();
   });
@@ -182,7 +182,7 @@ document.addEventListener("DOMContentLoaded", () => {
     accessBtn.classList.add("vibrate");
     setTimeout(()=>accessBtn.classList.remove("vibrate"),400);
     smallText.style.display="block";
-    smallText.textContent="Recarga la página, comparte el enlace e intenta de nuevo.";
+    smallText.textContent="Recarga la página, comparte el enlace eh intenta de nuevo.";
   });
 
   // --- Miembros por hora y día ---
