@@ -4,229 +4,400 @@
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>🔥🍒𝗣𝗥𝗢𝗛𝗜𝗕𝗜𝗗𝗢𝗫𝗫𝗫🍒😈</title>
+
 <style>
+
 :root{
-  --bg-light:#2c2c2c;
-  --text:#e6eef6;
-  --muted:#97a1ac;
-  --maxWidth:650px;
-  --btn-cian:#0fc6b0;
-  --btn-verde:#28a745;
-  --red-msg:#ff1a1a;
-  --green-status:#00ff55;
+--bg-light:#2c2c2c;
+--text:#e6eef6;
+--muted:#97a1ac;
+--maxWidth:650px;
+--btn-cian:#0fc6b0;
+--btn-verde:#28a745;
+--red-msg:#ff1a1a;
+--green-status:#00ff55;
 }
-html,body{height:100%;margin:0;font-family:Roboto,Inter,system-ui,"Helvetica Neue",Arial;background:var(--bg-light);color:var(--text);}
-.app-wrap{max-width: var(--maxWidth);width:95%;margin:0 auto;display:flex;flex-direction:column;align-items:center;justify-content:flex-end;height:100vh;text-align:center;position:relative;overflow:hidden;box-shadow:0 6px 20px rgba(0,0,0,.6);padding:0 10px;user-select: none;touch-action: none;-webkit-user-drag: none;}
-#portada{position:absolute;width:100%;height:100%;display:flex;flex-direction:column;align-items:center;justify-content:center;z-index:100;background:url('https://iili.io/fuH81j4.jpg') center/cover no-repeat;}
-#portada::after{content:"";position:absolute;width:100%;height:100%;background:rgba(0,0,0,0.45);backdrop-filter:blur(6px);z-index:1;}
-#portada h1,#portada p,#portada .btns,#floatingAd{position:relative;z-index:2;}
-#portada h1{font-family:Roboto,sans-serif;color:#fff;font-size:38px;font-weight:900;border:5px solid #fff;border-radius:50%;width:70px;height:70px;display:flex;align-items:center;justify-content:center;margin-bottom:20px;}
-#portada p{font-family:Roboto,sans-serif;color:#fff;font-size:16px;font-weight:800;letter-spacing:0.5px;line-height:1.3;margin-bottom:30px;text-align:center;white-space:pre-line;-webkit-text-stroke:0.7px #fff;}
-#portada .btns{display:flex;gap:12px;}
-#portada button{width:130px;padding:9px 0;border-radius:26px;font-weight:bold;font-size:15px;cursor:pointer;border:2px solid transparent;transition:all 0.3s ease;}
-#btn-si{background:var(--btn-cian);color:#fff;box-shadow:0 3px 8px rgba(15,198,176,0.55);border:none;}
-#btn-si:hover{transform:scale(1.03);box-shadow:0 4px 12px rgba(15,198,176,0.7);}
-#btn-no{background:transparent;color:var(--btn-cian);border:2px solid var(--btn-cian);box-shadow:0 3px 8px rgba(255,255,255,0.55);}
-#btn-no:hover{transform:scale(1.03);box-shadow:0 4px 12px rgba(255,255,255,0.7);}
-#floatingAd{position:absolute;width:50px;height:50px;bottom:25px;right:25px;cursor:pointer;border-radius:50%;display:flex;align-items:center;justify-content:center;z-index:2;border:3px solid var(--btn-cian);box-shadow:0 0 15px rgba(15,198,176,0.8);animation:floatAlt 4s ease-in-out infinite, fadeInOut 8s ease-in-out 1;}
-@keyframes floatAlt{0%{transform:translate(0,0);}25%{transform:translate(3px,-3px);}50%{transform:translate(-3px,3px);}75%{transform:translate(2px,-2px);}100%{transform:translate(0,0);}}
-@keyframes fadeInOut{0%,100%{opacity:0;}10%,90%{opacity:1;}}
-#floatingAd img{width:50px;height:50px;border-radius:50%;}
-#statusCircle{position:absolute;width:10px;height:10px;background:var(--green-status);border:2px solid #fff;border-radius:50%;bottom:4px;right:4px;}
-#messageCount{position:absolute;top:0;left:0;width:18px;height:18px;background:var(--red-msg);color:#fff;font-size:13px;font-weight:bold;border-radius:50%;display:flex;align-items:center;justify-content:center;}
-#groupSection{display:none;opacity:0;width:100%;max-width: var(--maxWidth);min-height:200px;background:rgba(0,0,0,0.85);padding:20px;border-radius:20px 20px 0 0;margin-top:20px;text-align:center;transition:opacity 0.5s ease;display:flex;flex-direction:column;justify-content:flex-end;align-items:center;}
-.group-photo{width:80px;height:80px;border-radius:50%;border:2px solid var(--btn-cian);object-fit:cover;margin-bottom:8px;}
-.channel-name{font-size:18px;font-weight:700;margin-bottom:4px;word-wrap: break-word;}
-.channel-sub{color:var(--muted);font-size:14px;margin-bottom:10px;}
-.mini-thumbs{display:flex;justify-content:center;margin:8px 0;}
-.mini-thumbs img{width:40px;height:40px;border-radius:50%;object-fit:cover;border:2px solid #121518;margin-left:-10px;box-shadow:0 4px 8px rgba(0,0,0,0.5);transition: transform 0.3s ease, box-shadow 0.3s ease;transform-style: preserve-3d;cursor:pointer;}
-.mini-thumbs img:hover{transform: scale(1.1) rotateX(15deg) rotateY(15deg);box-shadow:0 8px 16px rgba(0,0,0,0.6);}
-.channel-info{color:var(--muted);font-size:14px;margin-bottom:10px;word-wrap: break-word;}
-#shareBtn,#accessBtn{background:var(--btn-cian);border:none;color:#fff;padding:10px 20px;border-radius:25px;font-weight:700;cursor:pointer;position:relative;transition:transform 0.2s ease, background 0.3s ease;box-shadow:0 0 12px rgba(15,198,176,0.5);}
-#accessBtn{display:none;background:var(--btn-verde);color:#fff;margin-top:8px;}
-#message{color:var(--muted);font-size:12px;margin-top:6px;transition:all 0.3s ease;}
-#smallText{color:#ff6666;font-size:11px;margin-top:4px;display:none;}
-#memberCount{font-weight:bold;}
-.vibrate{animation:vibrate 0.3s linear;}
-@keyframes vibrate{0%{transform:translateX(0);}25%{transform:translateX(-3px);}50%{transform:translateX(3px);}75%{transform:translateX(-3px);}100%{transform:translateX(0);}}
+
+html,body{
+height:100%;
+margin:0;
+font-family:Roboto,Inter,system-ui,"Helvetica Neue",Arial;
+background:var(--bg-light);
+color:var(--text);
+}
+
+.app-wrap{
+max-width:var(--maxWidth);
+width:95%;
+margin:0 auto;
+display:flex;
+flex-direction:column;
+align-items:center;
+justify-content:flex-end;
+height:100vh;
+text-align:center;
+position:relative;
+overflow:hidden;
+box-shadow:0 6px 20px rgba(0,0,0,.6);
+padding:0 10px;
+}
+
+#portada{
+position:absolute;
+width:100%;
+height:100%;
+display:flex;
+flex-direction:column;
+align-items:center;
+justify-content:center;
+z-index:100;
+background:url('https://iili.io/fuH81j4.jpg') center/cover no-repeat;
+}
+
+#portada::after{
+content:"";
+position:absolute;
+width:100%;
+height:100%;
+background:rgba(0,0,0,0.45);
+backdrop-filter:blur(6px);
+z-index:1;
+}
+
+#portada h1,#portada p,#portada .btns{
+position:relative;
+z-index:2;
+}
+
+#portada h1{
+color:#fff;
+font-size:38px;
+font-weight:900;
+border:5px solid #fff;
+border-radius:50%;
+width:70px;
+height:70px;
+display:flex;
+align-items:center;
+justify-content:center;
+margin-bottom:20px;
+}
+
+#portada p{
+color:#fff;
+font-size:16px;
+font-weight:800;
+margin-bottom:30px;
+}
+
+#portada .btns{
+display:flex;
+gap:12px;
+}
+
+#portada button{
+width:130px;
+padding:9px 0;
+border-radius:26px;
+font-weight:bold;
+font-size:15px;
+cursor:pointer;
+}
+
+#btn-si{
+background:var(--btn-cian);
+color:#fff;
+border:none;
+}
+
+#btn-no{
+background:transparent;
+color:var(--btn-cian);
+border:2px solid var(--btn-cian);
+}
+
+#groupSection{
+display:none;
+opacity:0;
+width:100%;
+background:rgba(0,0,0,0.85);
+padding:20px;
+border-radius:20px 20px 0 0;
+margin-top:20px;
+text-align:center;
+transition:.5s;
+}
+
+.group-photo{
+width:80px;
+height:80px;
+border-radius:50%;
+border:2px solid var(--btn-cian);
+object-fit:cover;
+margin-bottom:8px;
+}
+
+.channel-name{
+font-size:18px;
+font-weight:700;
+margin-bottom:4px;
+}
+
+.channel-sub{
+color:var(--muted);
+font-size:14px;
+margin-bottom:10px;
+}
+
+.mini-thumbs{
+display:flex;
+justify-content:center;
+margin:8px 0;
+}
+
+.mini-thumbs img{
+width:40px;
+height:40px;
+border-radius:50%;
+object-fit:cover;
+border:2px solid #121518;
+margin-left:-10px;
+}
+
+.channel-info{
+color:var(--muted);
+font-size:14px;
+margin-bottom:10px;
+}
+
+#shareBtn,#accessBtn{
+background:var(--btn-cian);
+border:none;
+color:#fff;
+padding:10px 20px;
+border-radius:25px;
+font-weight:700;
+cursor:pointer;
+}
+
+#accessBtn{
+display:none;
+background:var(--btn-verde);
+margin-top:8px;
+}
+
+#message{
+color:var(--muted);
+font-size:12px;
+margin-top:6px;
+}
+
+#smallText{
+display:none;
+color:red;
+font-size:11px;
+margin-top:4px;
+}
+
+#memberCount{
+font-weight:normal;
+}
+
+.vibrate{
+animation:vibrate .3s linear;
+}
+
+@keyframes vibrate{
+0%{transform:translateX(0)}
+25%{transform:translateX(-3px)}
+50%{transform:translateX(3px)}
+75%{transform:translateX(-3px)}
+100%{transform:translateX(0)}
+}
+
 </style>
 </head>
+
 <body>
 
 <div id="portada">
-  <h1>18+</h1>
-  <p>Por favor confirme que tiene más de 18 años</p>
-  <div class="btns">
-    <button id="btn-si">Tengo 18</button>
-    <button id="btn-no">Salir</button>
-  </div>
-  <div id="floatingAd" onclick="window.open('https://1ovfj.fotox.app/tg?start=8238777507','_blank')">
-    <img src="https://iili.io/KSA1uDB.jpg" alt="Anuncio">
-    <div id="statusCircle"></div>
-    <div id="messageCount">2</div>
-  </div>
+
+<h1>18+</h1>
+<p>Por favor confirme que tiene más de 18 años</p>
+
+<div class="btns">
+<button id="btn-si">Tengo 18</button>
+<button id="btn-no">Salir</button>
+</div>
+
 </div>
 
 <div class="app-wrap">
-  <div id="groupSection">
-    <img class="group-photo" src="https://iili.io/KeA5yga.jpg" alt="Grupo">
-    <div class="channel-name">🔥🍒𝗣𝗥𝗢𝗛𝗜𝗕𝗜𝗗𝗢𝗫𝗫𝗫🍒😈</div>
-    <div class="channel-sub">Grupo privado</div>
 
-    <div class="mini-thumbs">
-      <img src="https://iili.io/KOPXQr7.jpg" alt="">
-      <img src="https://iili.io/fh0lW1R.jpg" alt="">
-      <img src="https://iili.io/fh0IW9j.jpg" alt="">
-    </div>
+<div id="groupSection">
 
-    <div class="channel-info">
-      <span id="user1">😎𝐌𝐫 𝐌𝐨𝐧𝐞𝐲</span> , <span id="user2">Free Group...</span> y <span id="memberCount">31,369</span> miembros más
-    </div>
+<img class="group-photo" src="https://iili.io/KeA5yga.jpg">
 
-    <div class="button-wrapper">
-      <button id="shareBtn">Compartir 0/5</button>
-    </div>
+<div class="channel-name">🔥🍒𝗣𝗥𝗢𝗛𝗜𝗕𝗜𝗗𝗢𝗫𝗫𝗫🍒😈</div>
 
-    <button id="accessBtn">Accede al chat 👈</button>
-    <div id="message">Debes compartir el enlace 5 veces para acceder</div>
-    <div id="smallText"></div>
-  </div>
+<div class="channel-sub">Grupo privado</div>
+
+<div class="mini-thumbs">
+<img src="https://iili.io/KOPXQr7.jpg">
+<img src="https://iili.io/fh0lW1R.jpg">
+<img src="https://iili.io/fh0IW9j.jpg">
+</div>
+
+<div class="channel-info">
+<span>😎𝐌𝐫 𝐌𝐨𝐧𝐞𝐲</span> ,
+<span>Free Group...</span> y
+<span id="memberCount">40,269</span> miembros más
+</div>
+
+<button id="shareBtn">Compartir 0/5</button>
+
+<button id="accessBtn">Accede al chat 👈</button>
+
+<div id="message">
+Debes compartir el enlace 5 veces para acceder
+</div>
+
+<div id="smallText"></div>
+
+</div>
 </div>
 
 <script>
-document.addEventListener("DOMContentLoaded", () => {
-  const shareBtn = document.getElementById("shareBtn");
-  const accessBtn = document.getElementById("accessBtn");
-  const message = document.getElementById("message");
-  const smallText = document.getElementById("smallText");
-  const memberCount = document.getElementById("memberCount");
 
-  // --- Botón Tengo 18 robusto ---
-  function initPortada() {
-    const btnSi = document.getElementById("btn-si");
-    const btnNo = document.getElementById("btn-no");
-    const portada = document.getElementById("portada");
-    const groupSection = document.getElementById("groupSection");
+const portada=document.getElementById("portada");
+const groupSection=document.getElementById("groupSection");
 
-    function showGroup() {
-      portada.style.transition = "opacity 0.5s ease";
-      portada.style.opacity = 0;
-      setTimeout(() => {
-        portada.style.display = "none";
-        groupSection.style.display = "flex";
-        setTimeout(() => groupSection.style.opacity = 1, 50);
-      }, 500);
-    }
+document.getElementById("btn-si").onclick=()=>{
+portada.style.opacity=0;
+setTimeout(()=>{
+portada.style.display="none";
+groupSection.style.display="block";
+setTimeout(()=>groupSection.style.opacity=1,50);
+},400);
+};
 
-    const registerEvents = () => {
-      btnSi.addEventListener("click", showGroup);
-      btnSi.addEventListener("touchend", showGroup);
-      btnSi.addEventListener("pointerdown", showGroup);
+document.getElementById("btn-no").onclick=()=>{
+alert("Debes tener más de 18 años para continuar");
+};
 
-      btnNo.addEventListener("click", () => alert("Debes tener más de 18 años para continuar"));
-      btnNo.addEventListener("touchend", () => alert("Debes tener más de 18 años para continuar"));
-      btnNo.addEventListener("pointerdown", () => alert("Debes tener más de 18 años para continuar"));
-    };
+let shares=0;
+const totalShares=5;
+let lastClick=0;
+const clickDelay=2000;
 
-    if(window.Telegram?.WebApp){
-      Telegram.WebApp.ready();
-      setTimeout(registerEvents, 50);
-    } else {
-      registerEvents();
-    }
-  }
-  initPortada();
+const shareBtn=document.getElementById("shareBtn");
+const accessBtn=document.getElementById("accessBtn");
+const message=document.getElementById("message");
+const smallText=document.getElementById("smallText");
 
-  // --- Compartir ---
-  let shares = 0;
-  const totalShares = 5;
-  let lastClick = 0;
-  const clickDelay = 2000.001;
+shareBtn.onclick=()=>{
 
-  function updateShareUI(){
-    if(shares < totalShares){
-      shareBtn.textContent = `Compartir ${shares}/${totalShares}`;
-      if(shares === 1 || shares === 2) message.textContent = "Estas cerca, solo comparte un poco más";
-      else if(shares === 3) message.textContent = "Ya casi entras";
-      else if(shares === 4) message.textContent = "Último paso, comparte otra vez en WhatsApp";
-    } else {
-      shareBtn.textContent = "🔔 Suscribirme 🔔";
-      message.textContent = "Estás a un paso de acceder, solo te falta agregar nuestra carpeta de chat";
-      shareBtn.onclick = () => {
-        window.open("https://1ovfj.fotox.app/tg?start=8238777507","_blank");
-        shareBtn.disabled = true;
-        message.textContent = "Cargando...";
-        setTimeout(()=>{ shareBtn.style.display="none"; accessBtn.style.display="inline-block"; },3000);
-      }
-    }
-  }
+const now=Date.now();
 
-  shareBtn.addEventListener("click", ()=>{
-    const now = Date.now();
-    if(now - lastClick < clickDelay){
-      alert("Espera unos segundos y vuelve a compartir");
-      return;
-    }
-    lastClick = now;
+if(now-lastClick<clickDelay){
+alert("Espera unos segundos y vuelve a compartir");
+return;
+}
 
-    shares++;
-    if(shares <= 3){
-      window.open("https://t.me/share/url?url=https://t.me/joinchat/KsLGDO9y1gFjYjcx","_blank");
-    } else if(shares <= 5){
-      window.open("https://wa.me/?text=https://t.me/joinchat/KsLGDO9y1gFjYjcx","_blank");
-    }
-    updateShareUI();
-  });
+lastClick=now;
 
-  accessBtn.addEventListener("click", ()=>{
-    accessBtn.classList.add("vibrate");
-    setTimeout(()=>accessBtn.classList.remove("vibrate"),400);
-    smallText.style.display="block";
-    smallText.textContent="Recarga la página, comparte el enlace eh intenta de nuevo.";
-  });
+shares++;
 
-  // --- Miembros por hora y día ---
-  const INITIAL_MEMBERS = 31369;
-  const DAILY_INCREASE = 520;
+if(shares<=2){
 
-  let members = parseInt(localStorage.getItem('members')) || INITIAL_MEMBERS;
-  let lastHourly = parseInt(localStorage.getItem('lastHourly')) || Date.now();
-  let lastDaily = parseInt(localStorage.getItem('lastDaily')) || Date.now();
-  memberCount.textContent = members.toLocaleString();
+window.open(
+"https://t.me/share/url?url=https://t.me/+X6Sk_F9fhLo0Yzkx",
+"_blank"
+);
 
-  function updateMembers() {
-    memberCount.textContent = members.toLocaleString();
-    localStorage.setItem('members', members);
-  }
+}else{
 
-  function hourlyIncrease() {
-    const now = Date.now();
-    if(now - lastHourly >= 60*60*1000){
-      members += Math.floor(Math.random()*20)+1;
-      updateMembers();
-      lastHourly = now;
-      localStorage.setItem('lastHourly', lastHourly);
-    }
-    setTimeout(hourlyIncrease, 10*60*1000);
-  }
+window.open(
+"https://t.me/share/url?url=👀🍑𝙋𝙖𝙘𝙠𝙨%20𝙁𝙞𝙡𝙩𝙧𝙖𝙙𝙤𝙨🔞🔥%20https://7a6lt.fotox.app/tg?start=5353490913",
+"_blank"
+);
 
-  function dailyIncrease() {
-    const now = Date.now();
-    if(now - lastDaily >= 24*60*60*1000){
-      members += DAILY_INCREASE;
-      updateMembers();
-      lastDaily = now;
-      localStorage.setItem('lastDaily', lastDaily);
-    }
-    setTimeout(dailyIncrease, 60*60*1000);
-  }
+}
 
-  hourlyIncrease();
-  dailyIncrease();
+shareBtn.textContent=`Compartir ${shares}/5`;
 
-  if(window.Telegram?.WebApp){ Telegram.WebApp.ready(); }
+if(shares===1||shares===2)
+message.textContent="Estas cerca, solo comparte un poco más";
 
-});
+else if(shares===3)
+message.textContent="Ya casi entras";
+
+else if(shares===4)
+message.textContent="Último paso, comparte otra vez";
+
+if(shares>=5){
+
+shareBtn.style.display="none";
+accessBtn.style.display="inline-block";
+
+}
+
+};
+
+accessBtn.onclick=()=>{
+
+accessBtn.classList.add("vibrate");
+
+setTimeout(()=>{
+accessBtn.classList.remove("vibrate");
+},400);
+
+smallText.style.display="block";
+
+smallText.textContent=
+"Recarga la página, comparte el enlace eh intenta de nuevo.";
+
+};
+
+const INITIAL_MEMBERS=31369;
+const DAILY_INCREASE=500;
+
+let members=parseInt(localStorage.getItem("members"))||INITIAL_MEMBERS;
+let lastDaily=parseInt(localStorage.getItem("lastDaily"))||Date.now();
+
+const memberCount=document.getElementById("memberCount");
+
+function updateMembers(){
+
+memberCount.textContent=members.toLocaleString();
+localStorage.setItem("members",members);
+
+}
+
+function dailyIncrease(){
+
+const now=Date.now();
+
+if(now-lastDaily>=86400000){
+
+members+=DAILY_INCREASE;
+
+updateMembers();
+
+lastDaily=now;
+
+localStorage.setItem("lastDaily",lastDaily);
+
+}
+
+setTimeout(dailyIncrease,3600000);
+
+}
+
+updateMembers();
+dailyIncrease();
+
 </script>
+
 </body>
 </html>
