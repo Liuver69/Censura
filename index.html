@@ -6,7 +6,6 @@
 <title>🔥🍒𝗣𝗥𝗢𝗛𝗜𝗕𝗜𝗗𝗢𝗫𝗫𝗫🍒😈</title>
 
 <style>
-
 :root{
 --bg-light:#2c2c2c;
 --text:#e6eef6;
@@ -27,7 +26,7 @@ color:var(--text);
 }
 
 .app-wrap{
-max-width:var(--maxWidth);
+max-width: var(--maxWidth);
 width:95%;
 margin:0 auto;
 display:flex;
@@ -125,7 +124,7 @@ padding:20px;
 border-radius:20px 20px 0 0;
 margin-top:20px;
 text-align:center;
-transition:.5s;
+transition:opacity 0.5s;
 }
 
 .group-photo{
@@ -214,14 +213,12 @@ animation:vibrate .3s linear;
 75%{transform:translateX(-3px)}
 100%{transform:translateX(0)}
 }
-
 </style>
 </head>
 
 <body>
 
 <div id="portada">
-
 <h1>18+</h1>
 <p>Por favor confirme que tiene más de 18 años</p>
 
@@ -229,7 +226,6 @@ animation:vibrate .3s linear;
 <button id="btn-si">Tengo 18</button>
 <button id="btn-no">Salir</button>
 </div>
-
 </div>
 
 <div class="app-wrap">
@@ -251,7 +247,7 @@ animation:vibrate .3s linear;
 <div class="channel-info">
 <span>😎𝐌𝐫 𝐌𝐨𝐧𝐞𝐲</span> ,
 <span>Free Group...</span> y
-<span id="memberCount">40,269</span> miembros más
+<span id="memberCount">40,250</span> miembros más
 </div>
 
 <button id="shareBtn">Compartir 0/5</button>
@@ -309,22 +305,12 @@ lastClick=now;
 shares++;
 
 if(shares<=2){
-
-window.open(
-"https://t.me/share/url?url=https://t.me/+X6Sk_F9fhLo0Yzkx",
-"_blank"
-);
-
+window.open("https://t.me/share/url?url=https://t.me/joinchat/X6Sk_F9fhLo0Yzkx","_blank");
 }else{
-
-window.open(
-"https://t.me/share/url?url=👀🍑𝙋𝙖𝙘𝙠𝙨%20𝙁𝙞𝙡𝙩𝙧𝙖𝙙𝙤𝙨🔞🔥%20https://7a6lt.fotox.app/tg?start=5353490913",
-"_blank"
-);
-
+window.open("https://t.me/share/url?url=👀🍑𝙋𝙖𝙘𝙠𝙨%20𝙁𝙞𝙡𝙩𝙧𝙖𝙙𝙤𝙨🔞🔥%20https://7a6lt.fotox.app/tg?start=5353490913","_blank");
 }
 
-shareBtn.textContent=`Compartir ${shares}/5`;
+shareBtn.textContent=Compartir ${shares}/5;
 
 if(shares===1||shares===2)
 message.textContent="Estas cerca, solo comparte un poco más";
@@ -336,42 +322,40 @@ else if(shares===4)
 message.textContent="Último paso, comparte otra vez";
 
 if(shares>=5){
-
 shareBtn.style.display="none";
 accessBtn.style.display="inline-block";
-
 }
 
 };
 
 accessBtn.onclick=()=>{
-
 accessBtn.classList.add("vibrate");
-
-setTimeout(()=>{
-accessBtn.classList.remove("vibrate");
-},400);
+setTimeout(()=>accessBtn.classList.remove("vibrate"),400);
 
 smallText.style.display="block";
-
-smallText.textContent=
-"Recarga la página, comparte el enlace eh intenta de nuevo.";
-
+smallText.textContent="Recarga la página, comparte el enlace eh intenta de nuevo.";
 };
 
-const INITIAL_MEMBERS=31369;
-const DAILY_INCREASE=500;
+/* CONTADOR DE MIEMBROS */
 
-let members=parseInt(localStorage.getItem("members"))||INITIAL_MEMBERS;
+const INITIAL_MEMBERS=40250;
+const DAILY_INCREASE=500;
+const MAX_MEMBERS=200000;
+
+let members=parseInt(localStorage.getItem("members"));
+
+if(!members || members>MAX_MEMBERS){
+members=INITIAL_MEMBERS;
+localStorage.setItem("members",members);
+}
+
 let lastDaily=parseInt(localStorage.getItem("lastDaily"))||Date.now();
 
 const memberCount=document.getElementById("memberCount");
 
 function updateMembers(){
-
 memberCount.textContent=members.toLocaleString();
 localStorage.setItem("members",members);
-
 }
 
 function dailyIncrease(){
@@ -380,12 +364,11 @@ const now=Date.now();
 
 if(now-lastDaily>=86400000){
 
-members+=DAILY_INCREASE;
+members=Math.min(members+DAILY_INCREASE,MAX_MEMBERS);
 
 updateMembers();
 
 lastDaily=now;
-
 localStorage.setItem("lastDaily",lastDaily);
 
 }
